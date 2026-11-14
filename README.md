@@ -37,6 +37,17 @@ Rules the agent is told up front: 35-minute connections at HEL, a 20-minute rebo
 travel together, oversold flights deny boarding to the latest-changed bookings first, alerts are
 accurate, and the search tools apply the current schedule but not notices about the future.
 
+Three mechanics make it a planning problem rather than a lookup:
+
+* **Knock-on delays.** Each aircraft flies a rotation and needs 40 minutes on the ground. A late inbound
+  pushes its next departures back, but the schedule only shows that once the late aircraft has taken off.
+  A desk that trusts the displayed times rebooks people onto connections that will break.
+* **A scarce partner allowance.** NordicLink has seats on its own routes, but the desk can only put
+  14 to 20 passengers on it per day. Spend it all at 07:00 and there is none left for the 17:00 bird strike.
+* **Seats are a shared resource.** The desk may move healthy bookings to free seats for a medical group or
+  an unaccompanied minor (`search_itineraries` with `include_full: true` shows the full options), and
+  every seat it gives away early is gone later.
+
 ## Reward
 
 Each booking is worth `tier weight × passengers × on-time factor`:
@@ -76,11 +87,18 @@ for the bookings that alert hit. This is how the decline over the day is measure
 ## Reference (the stronger run we demonstrate)
 
 `opsdesk/reference.py` is a short scripted desk that talks to the environment only through the public tools
-(it runs over MCP in the Harbor oracle). Every hour it reads the alerts, turns closure notices into
-"do not use" flights, serves deadline groups first and then by tier, gives each the earliest legal
-itinerary that avoids doomed flights, puts groups whose deadline is already lost last, and moves a healthy
-booking only when that gets it there an hour earlier (for example onto the recovery flight).
-It is not an oracle: it does not know future alerts.
+(it runs over MCP in the Harbor oracle, stdlib only). Every hour it:
+
+1. reads the alerts and turns closure notices into "do not use" flights;
+2. replays every aircraft rotation with the published 40-minute rule to project knock-on delays that are
+   not on the schedule yet;
+3. scores every booking that is broken, on a doomed or late flight, or that it moved before, by how much
+   value the best legal itinerary would add under the published scoring rule, and serves the biggest gains first;
+4. uses a partner seat only when it adds enough value per seat, and rations the allowance across the day;
+5. for medical, minor and deadline groups still short of value, frees seats by moving healthy groups,
+   only when the urgent group gains more than the moved groups lose.
+
+It is not an oracle: it does not know future alerts, and it sees nothing the agent cannot.
 
 ## Reward integrity: what we tried against our own verifier
 
