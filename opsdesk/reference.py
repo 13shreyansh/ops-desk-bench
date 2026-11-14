@@ -97,6 +97,7 @@ def projected_arr(o: dict, legs: dict[str, dict], extra: dict[str, int]) -> int 
 
 
 PARTNER_THRESHOLD = 0.6   # value gained per partner seat needed before spending the scarce allowance
+PARTNER_THRESHOLD_EARLY_EXTRA = 0.0   # extra value per seat demanded early in the day (falls to 0 by 18:00)
 PARTNER_EARLY = 0.3       # share of the allowance the desk lets itself spend by 07:00; it grows to all of it by 15:00
 BUMP = True
 _TOTAL: dict[int, int] = {}
@@ -116,14 +117,17 @@ def _ok(r: dict) -> bool:
     return bool(r.get("results", [{}])[0].get("ok"))
 
 
-def try_bump(call: Call, p: str, b: dict, doomed: set[str], moved: set[str], have: float) -> bool:
+def try_bump(call: Call, p: str, b: dict, doomed: set[str], moved: set[str], have: float, arr_of=None) -> bool:
     """Free seats for an urgent group by moving healthy, flexible groups to their next-best option,
     but only when the urgent group gains more than the moved groups lose."""
     res = call("search_itineraries", {"pnrs": [p], "include_full": True})["results"][0]
-    opts = [o for o in res.get("options", []) if not any(f in doomed for f in o["flights"])]
-    opts.sort(key=lambda o: -value(b, t2m(o["arr"])))
+    arr_of = arr_of or (lambda o: t2m(o["arr"]))
+    rem = [s_["flight"] for s_ in b["itinerary"] if not s_["flown"]]
+    opts = [o for o in res.get("options", []) if not any(f in doomed for f in o["flights"])
+            and o["flights"] != rem and arr_of(o) is not None]
+    opts.sort(key=lambda o: -value(b, arr_of(o)))
     for o in opts[:3]:
-        gain = value(b, t2m(o["arr"])) - have
+        gain = value(b, arr_of(o)) - have
         if gain <= 0.5:
             return False
         plan, cost = [], 0.0
@@ -141,13 +145,15 @@ def try_bump(call: Call, p: str, b: dict, doomed: set[str], moved: set[str], hav
                 if bq.get("location") in (None, "airborne") or bq.get("problems") or "must_arrive_by" in bq \
                         or bq["tier"] in ("medical", "umnr"):
                     continue
-                cur = value(bq, t2m(bq["itinerary"][-1]["arr"]))
+                rem_q = [s_["flight"] for s_ in bq["itinerary"] if not s_["flown"]]
+                cur = value(bq, arr_of({"flights": rem_q, "arr": bq["itinerary"][-1]["arr"]}))
                 alt = call("search_itineraries", {"pnrs": [q]})["results"][0].get("options", [])
-                alt = [x for x in alt if not any(f in doomed or f in o["flights"] for f in x["flights"])]
+                alt = [x for x in alt if not any(f in doomed or f in o["flights"] for f in x["flights"])
+                       and arr_of(x) is not None]
                 if not alt:
                     continue
-                best = max(alt, key=lambda x: value(bq, t2m(x["arr"])))
-                cands.append((cur - value(bq, t2m(best["arr"])), q, best["flights"], bq["pax"]))
+                best = max(alt, key=lambda x: value(bq, arr_of(x)))
+                cands.append((cur - value(bq, arr_of(best)), q, best["flights"], bq["pax"]))
             cands.sort()
             freed = 0
             for c, q, fl2, pax in cands:
@@ -216,7 +222,7 @@ def plan_tick(call: Call, moved: set[str]):
         v_au = value(b, arr_of(best_au)) if best_au else 0.0
         v_nl = value(b, arr_of(best_nl)) if best_nl else 0.0
         choice, v = best_au, v_au
-        if best_nl and b["pax"] <= left and (v_nl - v_au) / b["pax"] >= PARTNER_THRESHOLD:
+        if best_nl and b["pax"] <= left and (v_nl - v_au) / b["pax"] >= threshold:
             choice, v = best_nl, v_nl
         return choice, v
 
@@ -260,6 +266,8 @@ def plan_tick(call: Call, moved: set[str]):
     total = _TOTAL.setdefault(id(moved), call("get_status", {}).get("partner_seats_left", 0))
     share = min(1.0, PARTNER_EARLY + (1 - PARTNER_EARLY) * max(0, now - 420) / (900 - 420))
 
+    threshold = PARTNER_THRESHOLD + PARTNER_THRESHOLD_EARLY_EXTRA * max(0.0, min(1.0, (1080 - now) / (1080 - 420)))
+
     def partner_left():
         actual = call("get_status", {}).get("partner_seats_left", 0)
         return max(0, min(actual, int(total * share + 1e-9) - (total - actual)))
@@ -297,7 +305,7 @@ def plan_tick(call: Call, moved: set[str]):
             if st is None:
                 continue
             b, rem, broken, cur = st
-            try_bump(call, p, b, doomed, moved, cur)
+            try_bump(call, p, b, doomed, moved, cur, arr_of)
 
 
 def run_reference(call: Call):

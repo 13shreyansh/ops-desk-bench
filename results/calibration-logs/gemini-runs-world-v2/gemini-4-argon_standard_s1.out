@@ -1,0 +1,2 @@
+{"score": 1.2675, "value": 2055.67, "v_nothing": 1796.36, "v_reference": 2000.95, "ended_at": "23:00", "tool_calls": 244, "tool_errors": 0, "agent": {"model": "gemini-4-argon", "stop": "end_shift", "turns": 83, "usage": {"prompt": 9599584, "output": 10699, "thoughts": 83342, "cached": 9300391}, "infra_errors": 0}}
+{'never_handled': 5, 'cascade_blind': 2, 'ignored_notice': 1, 'procrastinated': 9, 'worse_choice': 0, 'priority_inversion': 3, 'harmful_churn': 4, 'denied_boarding': 0, 'stopped_early': 0}

@@ -1,0 +1,1 @@
+{"reward": 1.0, "raw_score": 1.0, "value": 2000.95, "v_nothing": 1796.36, "v_reference": 2000.95, "tool_calls": 55167, "tool_errors": 35, "fm_never_handled": 0, "fm_cascade_blind": 0, "fm_ignored_notice": 0, "fm_procrastinated": 0, "fm_worse_choice": 0, "fm_priority_inversion": 0, "fm_harmful_churn": 22, "fm_denied_boarding": 7, "fm_stopped_early": 0}

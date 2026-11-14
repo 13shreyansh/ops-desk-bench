@@ -1,0 +1,2 @@
+{"score": 0.9572, "value": 2043.98, "v_nothing": 1859.19, "v_reference": 2052.25, "ended_at": "23:00", "tool_calls": 181, "tool_errors": 1, "agent": {"model": "gemini-3.8-flash", "stop": "end_shift", "turns": 134, "usage": {"prompt": 14289066, "output": 7680, "thoughts": 62243, "cached": 13906834}, "infra_errors": 0}}
+{'never_handled': 0, 'cascade_blind': 0, 'ignored_notice': 0, 'procrastinated': 2, 'worse_choice': 0, 'priority_inversion': 1, 'harmful_churn': 0, 'denied_boarding': 0, 'stopped_early': 0}
