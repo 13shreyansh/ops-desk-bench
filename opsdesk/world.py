@@ -97,6 +97,7 @@ class Event:
     kind: str          # cancel | delay | advisory | closure_confirm | add_flight | downgauge
     text: str
     payload: dict = field(default_factory=dict)
+    family: str = ""
 
 
 @dataclass
@@ -116,7 +117,14 @@ LAST = ["Virtanen", "Korhonen", "Nieminen", "Makinen", "Hamalainen", "Laine", "H
         "Jansen", "Berg", "Nilsson", "Ozols", "Tamm", "Rossi", "Novak", "Kowalski", "Lind"]
 
 
-def generate(seed: int = 0, size: str = "standard") -> Scenario:
+# Whole disruption families, never random event rows, define the supplemental audit.
+PROFILE_FAMILIES = {
+    "development": frozenset({"technical_cancel", "rotation_delay", "closure_recovery", "inbound_delay", "late_fault", "hydraulic_delay", "atc_delay"}),
+    "final": frozenset({"escalating_delay", "capacity_constraint", "next_day_cancel"}),
+}
+
+
+def generate(seed: int = 0, size: str = "standard", profile: str = "all") -> Scenario:
     rng = random.Random(seed * 7919 + (0 if size == "standard" else 1))
     spokes = ["ARN", "TLL", "CPH", "OSL", "OUL", "RVN", "FRA"]
     if size == "small":
@@ -226,6 +234,10 @@ def generate(seed: int = 0, size: str = "standard") -> Scenario:
                                       carrier="NL")
 
     events = _disruptions(rng, flights, spokes)
+    if profile != "all":
+        if profile not in PROFILE_FAMILIES:
+            raise ValueError(f"unknown disruption profile {profile!r}")
+        events = [e for e in events if e.family in PROFILE_FAMILIES[profile]]
     return Scenario(seed, size, flights, bookings, events)
 
 
@@ -361,6 +373,12 @@ def _disruptions(rng: random.Random, flights: dict[str, Flight], spokes: list[st
     ev.append(Event(eid(), 21 * 60, "cancel",
                     f"Crew duty-time limit: tomorrow's {g.id} {HUB}-{g.dest} ({hhmm(g.std)}) is CANCELLED.",
                     {"flights": [g.id]}))
+    families = ["technical_cancel", "rotation_delay", "inbound_delay", "closure_recovery", "closure_recovery",
+                "escalating_delay", "escalating_delay", "closure_recovery", "capacity_constraint",
+                "late_fault", "hydraulic_delay", "atc_delay", "next_day_cancel"]
+    assert len(ev) == len(families)
+    for event, family in zip(ev, families):
+        event.family = family
     ev.sort(key=lambda e: (e.at, e.id))
     for i, e in enumerate(ev):  # number alerts in the order they fire
         old = e.id

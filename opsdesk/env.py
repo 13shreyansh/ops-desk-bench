@@ -34,9 +34,10 @@ class LogEntry:
 
 
 class OpsDesk:
-    def __init__(self, seed: int = 0, size: str = "standard"):
+    def __init__(self, seed: int = 0, size: str = "standard", profile: str = "all"):
         self.seed, self.size = seed, size
-        sc = generate(seed, size)
+        self.profile = profile
+        sc = generate(seed, size, profile)
         self.flights: dict[str, Flight] = sc.flights
         self.bookings: dict[str, Booking] = sc.bookings
         self.events = sc.events
@@ -159,6 +160,21 @@ class OpsDesk:
                 f = self.flights[pl["flight"]]
                 f.aircraft, f.seats = pl["aircraft"], AIRCRAFT[pl["aircraft"]]
             self.log.append(LogEntry(e.at, "event", {"id": e.id}))
+            # A previously accepted plan can become stale when its upstream flight changes.
+            # Record the dependent seat commitments before the desk has a chance to repair it.
+            changed = set(pl.get("flights", [])) if e.kind == "cancel" else ({pl["flight"]} if e.kind in ("delay", "downgauge") else set())
+            if changed:
+                moved = {l.data["pnr"] for l in self.log if l.kind == "rebook"}
+                for p in sorted(moved):
+                    rem = self._remaining(p)
+                    hit = changed.intersection(rem)
+                    if hit and self.problems(p):
+                        first = min(rem.index(fid) for fid in hit)
+                        self.log.append(LogEntry(self.now, "plan_invalidated", {
+                            "pnr": p, "event": e.id, "cause": e.kind,
+                            "invalid_flights": sorted(hit), "itinerary": list(rem),
+                            "dependent_flights": rem[first + 1:],
+                            "problem": self.problems(p)[0]}))
 
     def _scan(self):
         """Record, once per tick, which bookings have problems and their best option (for the verifier)."""
@@ -528,7 +544,7 @@ class OpsDesk:
     def snapshot(self) -> dict:
         """Full, serialisable record of the episode, consumed by the verifier."""
         return {
-            "seed": self.seed, "size": self.size, "now": self.now,
+            "seed": self.seed, "size": self.size, "profile": self.profile, "now": self.now,
             "ended": self.ended, "end_reason": self.end_reason, "end_time": getattr(self, "end_time", None),
             "tool_calls": self.tool_calls, "tool_errors": self.tool_errors,
             "arrivals": {p: s.arrived_at for p, s in self.state.items()},

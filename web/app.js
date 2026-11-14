@@ -2,6 +2,7 @@ const COLORS = {reference: "var(--ref)", nothing: "var(--nothing)", stop_early: 
 const LABELS = {reference: "Reference desk (scripted)", nothing: "Do nothing", stop_early: "Stop early (3 h)", naive: "Naive script"};
 const FM_TEXT = {
   never_handled: "Had a problem while the desk was on duty, a legal fix existed, never touched.",
+  stale_plan_retirement: "A later cancellation or constraint change invalidated an accepted rebooking; the desk left it and its dependent seats unrepaired, losing value the reference kept.",
   cascade_blind: "Fixed once, broke again after a later alert, left broken.",
   ignored_notice: "Rebooked through a flight a published closure notice had already doomed.",
   procrastinated: "Desk waited; by the time it acted the best option was 2+ h worse.",
@@ -43,7 +44,7 @@ function headline() {
   for (const [m, s] of Object.entries(byModel)) stats.push([mean(s).toFixed(2), `${m} mean score (${s.length} runs, best ${Math.max(...s).toFixed(2)})`]);
   stats.push(["1.00", "Scripted reference desk, every seed"]);
   stats.push(["0.00", "Do nothing / end shift at once"]);
-  stats.push([`${sd0.bookings.toLocaleString()}`, `bookings · ${sd0.flights} flights · 9 alerts`]);
+  stats.push([`${sd0.bookings.toLocaleString()}`, `bookings · ${sd0.flights} flights · ${sd0.events.length} alerts`]);
   $("#headline").innerHTML = stats.map(([v, k]) => `<div class="stat"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
 }
 
@@ -130,4 +131,4 @@ function exploits() {
   }).join("");
   $("#exploits").innerHTML = `<table><tr><th>Attempt</th>${EXPL.reference.map((_, i) => `<th style="text-align:right">seed ${i + 1}</th>`).join("")}<th style="text-align:right">mean</th></tr>${rows}</table>`;
 }
-main();
+main().catch(() => { $("#evidenceState").textContent = "Run data could not be loaded. Reload this page or inspect the run files linked above."; });

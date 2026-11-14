@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ops Desk · Break the Agent</title>
-<meta name="description" content="A deterministic, long-horizon airline disruption-desk environment where frontier agents fall behind a scripted reference.">
+<meta name="description" content="A deterministic airline disruption-desk benchmark with inspectable recovery scores, scripted baselines, and model-run evidence.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -12,11 +12,12 @@
 <body>
 <header class="hero">
   <div class="wrap">
-    <div class="kicker"><span class="dot"></span> AURORA REGIONAL · HEL OPS CONTROL · DAY 1</div>
     <h1>Can a frontier agent run an airline's<br>disruption desk for one day?</h1>
-    <p class="lede">Ops Desk is a deterministic, long-horizon environment. Nine disruptions hit a hub between 06:00 and 23:00.
-      The agent must keep ~1,000 bookings moving on scarce seats. A 150-line scripted desk that uses the same tools
-      sets the bar. <b>The frontier agent consistently falls short of it, and the code says exactly why.</b></p>
+    <p class="lede">A fictional Helsinki airline has a day of cancellations, missed connections and scarce seats.
+      Keep passengers moving from 06:00 to 23:00 using the same tools as a scripted reference desk.
+      Every score comes from simulated passenger arrivals.</p>
+    <p class="evidence-state" id="evidenceState" role="status">Current world v3. Scripted baselines available. Complete model-run evidence is pending; the model/reference gap is unmeasured.</p>
+    <p class="evidence-links"><a href="https://github.com/13shreyansh/ops-desk-bench/blob/main/eval/LEDGER.md">Read the evidence ledger</a> · <a href="https://github.com/13shreyansh/ops-desk-bench/tree/main/results">Inspect run files</a></p>
     <div class="headline" id="headline"></div>
     <nav class="tabs" id="seedTabs"></nav>
   </div>
@@ -24,42 +25,42 @@
 
 <main class="wrap">
   <section>
-    <h2><span class="num">01</span> The gap</h2>
+    <h2>Recovery scores</h2>
     <p class="sub">Score = share of the reference desk's recovery achieved. Doing nothing = 0, reference = 1. Same seed, same disruptions, every run.</p>
     <div id="scoreBars" class="card"></div>
   </section>
 
   <section>
-    <h2><span class="num">02</span> Coherence through the day</h2>
+    <h2>Coherence through the day</h2>
     <p class="sub">Value secured so far, hour by hour: what the day would end with if the desk walked away at that moment. Watch where the lines separate.</p>
     <div id="curve" class="card"></div>
   </section>
 
   <section>
-    <h2><span class="num">03</span> Alert by alert</h2>
+    <h2>Alert by alert</h2>
     <p class="sub">For the bookings each alert broke, how much of the reference's recovery the agent achieved.</p>
     <div id="alerts" class="card"></div>
   </section>
 
   <section>
-    <h2><span class="num">04</span> Named failure modes</h2>
+    <h2>Named failure modes</h2>
     <p class="sub">Detected by code from the action log and the final world state, not by an LLM judge. Value lost is measured against the reference, booking by booking.</p>
     <div id="failures" class="grid"></div>
   </section>
 
   <section>
-    <h2><span class="num">05</span> Reward integrity</h2>
-    <p class="sub">Attacks we ran against our own verifier (standard size, seeds 1–3). None beats doing the job.</p>
+    <h2>Reward integrity</h2>
+    <p class="sub">Current-world attacks against the verifier, standard size, seeds 1–3. Raw scores below retain losses and expose any reference weakness.</p>
     <div id="exploits" class="card"></div>
   </section>
 
   <section>
-    <h2><span class="num">06</span> Run it</h2>
+    <h2>Run it</h2>
     <div class="card code">
 <pre>git clone https://github.com/13shreyansh/ops-desk-bench && cd ops-desk-bench
 python -m opsdesk.eval --size standard --seeds 1 2 3          # reference, do-nothing, stop-early, naive
-python -m opsdesk.make_harbor --seeds 1 2 3                   # Harbor tasks with an MCP sidecar
-harbor run -p harbor/tasks/ops-desk-standard-seed1 -a oracle  # reference over MCP -> 1.0</pre>
+python -m opsdesk.experiment --suite scripted               # versioned baseline + exploit evidence
+python -m opsdesk.experiment --suite harbor --agent oracle  # Harbor reference over MCP</pre>
     </div>
     <p class="foot">Junction 2026 · AfterQuery "Break the Agent" · team The CS Guy · MIT · <a href="https://github.com/13shreyansh/ops-desk-bench">github.com/13shreyansh/ops-desk-bench</a></p>
   </section>

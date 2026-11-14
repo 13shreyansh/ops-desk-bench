@@ -1,0 +1,15 @@
+{
+  "world": "v3",
+  "commit": "eaec534",
+  "runner": "Python 3.11 in-process scripted baselines, run by Chief before Codex takeover",
+  "harbor_validation": false,
+  "model_run": false,
+  "recorded_at": "2026-11-14T18:12:07.913824+02:00",
+  "sha256": {
+    "results/standard/naive.json": "eb24553d0729aca22f083725e7c5b3dfb1df11edca2b6f93bf7f4a0d79480df8",
+    "results/standard/nothing.json": "bbb7ad98913290a1bb0b5f0b477217fa272cd0405accf28a85af435c6670b1ea",
+    "results/standard/reference.json": "0b64af1d34a11cb05991ae5ac35107f48ae927ff372dcf72096f1b1536de552e",
+    "results/standard/stop_early.json": "799508dd9e6040167a7f730782a65df4cd4c9792557d63fb2a91241b1ba8b8ac",
+    "results/standard/summary.json": "ba852c48111ddc257402716c6d9c5dced9b8366f4fc21209de298db1dfb90d82"
+  }
+}

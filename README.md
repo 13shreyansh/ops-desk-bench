@@ -2,14 +2,34 @@
 
 **Junction 2026 · AfterQuery "Break the Agent" · team The CS Guy**
 
+## Judge quick path
+
+| Criterion | Inspectable proof | Current limit |
+| --- | --- | --- |
+| Gap, 30% | [Evidence ledger](eval/LEDGER.md), [versioned experiments](results/experiments/) | Current-world model/reference gap is unmeasured. Old-world scores are calibration only. |
+| Meaningful difficulty, 30% | [Agent instructions](opsdesk/instruction.md), [stale-plan regressions](tests/test_plan_retirement.py), [audit protocol and published failures](eval/AUDIT_RESULTS.md) | Synthetic airline simulation, no claim of airline operational validation. |
+| Reward integrity, 25% | [v3 exploit results](results/standard/exploits.json), [genuine Harbor oracle/nop logs](results/harbor-runs/) | Reference is a heuristic, not a proved upper bound. Raw scores remain visible outside [0,1]. |
+| Craft, 15% | [One-command experiments](#versioned-experiments), [results site](https://ops-desk-bench.vercel.app), [video and pitch script](docs/demo-and-pitch.md) | Recording/public video and final competition submission remain pending. |
+
+**Evidence status:** Harbor STANDARD seed1 oracle = 1.000, nop = 0.000, zero exceptions. Flash3.8 and Argon4 STANDARD OpenCode runs are active. A complete model-play log is still required. An interrupted run is not a score. See the ledger for runner and world provenance.
+
 Ops Desk is a deterministic, long-horizon reinforcement-learning environment. The agent staffs the
 disruption desk of a fictional regional airline (Aurora Regional, hub Helsinki) from 06:00 to 23:00.
-Nine disruptions fire during the day: aircraft faults, delays that break connections, a closure notice
+Thirteen alert events across nine operational storylines fire during the day: aircraft faults, delays that break connections, a closure notice
 that comes three hours before the cancellations, an extra recovery flight, an aircraft swap that oversells
 an evening flight, and a late-night cancellation of tomorrow's first wave. The agent has to keep about
 1,000 bookings moving on scarce seats and protect the travellers who matter most.
 
-<!-- RESULTS -->
+Current v3 in-process scripted scores, standard seeds 1 / 2 / 3:
+
+| Policy | Seed 1 | Seed 2 | Seed 3 |
+| --- | ---: | ---: | ---: |
+| Reference | 1.0000 | 1.0000 | 1.0000 |
+| Do nothing | 0.0000 | 0.0000 | 0.0000 |
+| Stop after 3 hours | 0.0787 | 0.3084 | 0.2909 |
+| Naive script | 0.5767 | 0.7335 | 0.5179 |
+
+[Original Chief-run provenance and hashes](results/standard/PROVENANCE.json). These are scripted simulator runs, not Harbor validations or frontier-agent scores. [Harbor oracle](results/harbor-runs/v3-oracle-seed1/) and [nop](results/harbor-runs/v3-nop-seed1/) independently validate the container pipeline on seed 1.
 
 ## Why this setting
 
@@ -19,7 +39,7 @@ an evening flight, and a late-night cancellation of tomorrow's first wave. The a
   that punishes perfect play (the StoreBench author's advice: avoid trading and poker).
 * **Dynamic and long-horizon.** The world changes under the agent all day. Early decisions constrain
   later ones (seats you give away at 08:00 are gone at 15:00), and the agent has to keep re-checking work
-  it already did. This is where frontier agents degrade.
+  it already did. This is the failure hypothesis the model runs must test.
 * **Every tool and fact needed to do better is available.** The scripted reference uses exactly the
   same tools and information as the agent (see "Reference" below).
 
@@ -79,12 +99,13 @@ simulation runs to tomorrow afternoon. Words (the handover note, chat) are never
 | `priority_inversion` | A medical, unaccompanied-minor or deadline group lost value while the desk gave seats on its route to lower-priority groups |
 | `harmful_churn` | Desk moved a healthy booking, made it worse than leaving it alone, and the reference did not lose that value |
 | `denied_boarding` | Groups offloaded from an oversold flight |
+| `stale_plan_retirement` | A previously accepted rebooking is invalidated by a later cancellation or constraint change, has no subsequent successful replacement, and loses value the reference kept; dependent seats are recorded |
 | `stopped_early` | Desk ended its shift before 23:00; lists the alerts it never saw |
 
 `coherence` in each report shows, alert by alert, what share of the reference's recovery the agent achieved
 for the bookings that alert hit. This is how the decline over the day is measured.
 
-## Reference (the stronger run we demonstrate)
+## Scripted reference
 
 `opsdesk/reference.py` is a short scripted desk that talks to the environment only through the public tools
 (it runs over MCP in the Harbor oracle, stdlib only). Every hour it:
@@ -104,7 +125,20 @@ It is not an oracle: it does not know future alerts, and it sees nothing the age
 
 `python -m opsdesk.exploits` runs these attacks on seeds 1 to 3 (standard):
 
-<!-- EXPLOITS -->
+| Attempt | Seed 1 | Seed 2 | Seed 3 |
+| --- | ---: | ---: | ---: |
+| do_nothing | 0.0000 | 0.0000 | 0.0000 |
+| end_immediately_with_false_claim | 0.0000 | 0.0000 | 0.0000 |
+| advance_clock_only | 0.0000 | 0.0000 | 0.0000 |
+| stop_after_3h | 0.0787 | 0.3084 | 0.2909 |
+| reference_but_never_end | 1.0000 | 1.0000 | 1.0000 |
+| churn_every_booking | -1.5265 | -0.8798 | -1.2894 |
+| park_everyone_tomorrow | 0.2440 | 0.3154 | 0.3252 |
+| malformed_inputs | 0.0000 | 0.0000 | 0.0000 |
+| seat_double_count | 0.0000 | 0.0000 | 0.0000 |
+| reference | 1.0000 | 1.0000 | 1.0000 |
+
+`reference_but_never_end` performs the reference work and receives the same result when the harness finishes the episode. It is an expected equivalence, not an exploit success. These are current-world in-process attacks, separate from Harbor checks.
 
 Also by design:
 * The agent's container contains no simulator code; the environment runs as a separate MCP sidecar.
@@ -129,13 +163,35 @@ python -m opsdesk.exploits --size standard --seeds 1 2 3
 Python 3.11+; the simulator and verifier use only the standard library. The MCP server needs `mcp==1.27.0`
 and the agent runner needs `requests`.
 
+### Versioned experiments
+
+Install the dependencies once, then use one command per experiment. Requires local Docker for Harbor.
+
+```bash
+uv venv --python 3.11 .venv
+uv pip install --python .venv/bin/python -r requirements.txt
+uv tool install --python 3.13 'harbor==0.26.0'
+.venv/bin/python -m opsdesk.experiment --suite scripted
+.venv/bin/python -m opsdesk.experiment --suite audit
+.venv/bin/python -m opsdesk.experiment --suite harbor --agent oracle
+.venv/bin/python -m opsdesk.experiment --suite harbor --agent nop
+# Existing credential must already be in GEMINI_API_KEY. Values never go on the command line.
+.venv/bin/python -m opsdesk.experiment --suite harbor --agent opencode --model google/gemini-3.8-flash --seeds 1 2 3 --runs 3
+```
+
+Each command creates a new directory under `results/experiments/`, records source hashes, inputs, runner and times, and refuses to overwrite an existing name. The Harbor suite generates normal tasks and a transient private grader token in memory, then invokes the real Harbor executable. It never emulates OpenCode with a custom runner.
+
+The new development/final audit separates entire disruption families. [The protocol](eval/PROTOCOL.md) states the prior builder exposure and why this is not yet unseen-family model evidence. Repeated deterministic reference seeds do not count as repeated stochastic model trials. Assess multiple provider/model families when access permits; the judges' model list is undisclosed.
+
+For direct `harbor run` commands below, set a fresh `OPSDESK_GRADER_TOKEN` in your shell privately for that run. The wrapper above handles this automatically. Generated tasks contain an environment placeholder, not a fixed token. The verifier uses a private Authorization header. Agent containers receive neither this credential nor simulator/reference source. No `--dev-ca` image is included in submission tasks.
+
 ### With Harbor (the judges' harness)
 
 ```bash
 python -m opsdesk.make_harbor --seeds 1 2 3 --size standard     # writes harbor/tasks/ops-desk-standard-seed{1,2,3}
 harbor run -p harbor/tasks/ops-desk-standard-seed1 -a oracle    # reference desk over MCP  -> reward 1.0
 harbor run -p harbor/tasks/ops-desk-standard-seed1 -a nop       # do nothing               -> reward 0.0
-harbor run -p harbor/tasks/ops-desk-standard-seed1 -a opencode -m <model>
+harbor run -p harbor/tasks/ops-desk-standard-seed1 -a opencode -m google/gemini-3.8-flash --api-key-name GEMINI_API_KEY
 ```
 
 Each task runs the environment as an MCP sidecar (`opsdesk`, streamable HTTP) declared in `task.toml`.

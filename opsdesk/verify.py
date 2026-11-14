@@ -4,7 +4,7 @@ Reward
 ------
 Each booking is worth  weight x f(delay), where weight = tier weight x passengers and
     f = 1                                 if it arrives no later than originally due,
-    f = max(0, 1 - delay / 12 h)          otherwise,
+    f = max(0, 1 - delay / 24 h)          otherwise,
     f = 0                                 if it misses a stated deadline or never arrives.
 
     score = (V_agent - V_nothing) / (V_reference - V_nothing)
@@ -38,9 +38,9 @@ def total_value(env: OpsDesk) -> float:
 
 
 @lru_cache(maxsize=64)
-def anchors(seed: int, size: str) -> dict:
+def anchors(seed: int, size: str, profile: str = "all") -> dict:
     from .reference import run_nothing, run_reference
-    n, r = OpsDesk(seed, size), OpsDesk(seed, size)
+    n, r = OpsDesk(seed, size, profile), OpsDesk(seed, size, profile)
     run_nothing(n.tool)
     run_reference(r.tool)
     return {"v_nothing": total_value(n), "v_reference": total_value(r),
@@ -50,7 +50,7 @@ def anchors(seed: int, size: str) -> dict:
 
 
 def score(env: OpsDesk) -> dict:
-    a = anchors(env.seed, env.size)
+    a = anchors(env.seed, env.size, env.profile)
     v = total_value(env)
     span = a["v_reference"] - a["v_nothing"]
     s = (v - a["v_nothing"]) / span if span > 0 else 0.0
@@ -58,9 +58,20 @@ def score(env: OpsDesk) -> dict:
             "v_reference": round(a["v_reference"], 2), "value_at_stake": round(a["max_value"] - a["v_nothing"], 2)}
 
 
+def stale_plan_records(env: OpsDesk) -> list[dict]:
+    """Audit accepted itineraries invalidated later; successful replacement retires dependents."""
+    records = []
+    for i, entry in enumerate(env.log):
+        if entry.kind == "plan_invalidated":
+            p = entry.data["pnr"]
+            retired = any(l.kind == "rebook" and l.data["pnr"] == p for l in env.log[i + 1:])
+            records.append({"at": entry.t, **entry.data, "retired": retired})
+    return records
+
+
 def failure_modes(env: OpsDesk) -> dict:
     """Concrete, code-detected failure modes. Each entry lists the bookings involved."""
-    a = anchors(env.seed, env.size)
+    a = anchors(env.seed, env.size, env.profile)
     ref = a["per_pnr_reference"]
     nothing = a["per_pnr_nothing"]
     vals = {p: booking_value(env, p) for p in env.bookings}
@@ -72,7 +83,7 @@ def failure_modes(env: OpsDesk) -> dict:
     seen = getattr(env, "problem_ticks", {})
     out: dict[str, list] = {k: [] for k in (
         "never_handled", "cascade_blind", "ignored_notice", "procrastinated", "worse_choice",
-        "priority_inversion", "harmful_churn", "denied_boarding", "stopped_early")}
+        "priority_inversion", "harmful_churn", "denied_boarding", "stopped_early", "stale_plan_retirement")}
 
     from .reference import CLOSURE_RE
     from .env import _parse  # noqa
@@ -144,6 +155,12 @@ def failure_modes(env: OpsDesk) -> dict:
                 out["priority_inversion"].append(p)
                 break
 
+    # An invalidated agent-created itinerary must be retired, including dependent seats.
+    # Log order distinguishes repairs performed during the same simulated minute.
+    for entry in stale_plan_records(env):
+        if not entry["retired"] and lost(entry["pnr"]):
+            out["stale_plan_retirement"].append(entry["pnr"])
+
     out["denied_boarding"] = sorted({l.data["pnr"] for l in env.log if l.kind == "denied_boarding"})
     if env.end_reason == "agent" and end_t < SHIFT_END:
         out["stopped_early"] = [e.id for e in env.events if e.at > end_t]
@@ -158,7 +175,7 @@ def failure_modes(env: OpsDesk) -> dict:
 
 def coherence_curve(env: OpsDesk) -> list[dict]:
     """For each alert, how much of the reference's recovery the agent achieved for the bookings it hit."""
-    a = anchors(env.seed, env.size)
+    a = anchors(env.seed, env.size, env.profile)
     ref, nothing = a["per_pnr_reference"], a["per_pnr_nothing"]
     vals = {p: booking_value(env, p) for p in env.bookings}
     seen = getattr(env, "problem_ticks", {})
@@ -173,7 +190,7 @@ def coherence_curve(env: OpsDesk) -> list[dict]:
 
 
 def report(env: OpsDesk) -> dict:
-    return {"seed": env.seed, "size": env.size, **score(env),
+    return {"seed": env.seed, "size": env.size, "profile": env.profile, **score(env),
             "end_reason": env.end_reason, "ended_at": hhmm(getattr(env, "end_time", env.now)),
             "tool_calls": env.tool_calls, "tool_errors": env.tool_errors,
-            "failure_modes": failure_modes(env), "coherence": coherence_curve(env)}
+            "failure_modes": failure_modes(env), "stale_plans": stale_plan_records(env), "coherence": coherence_curve(env)}

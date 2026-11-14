@@ -1,0 +1,153 @@
+{
+ "seed": 1,
+ "size": "standard",
+ "score": 1.0,
+ "value": 2187.66,
+ "v_nothing": 1992.36,
+ "v_reference": 2187.66,
+ "value_at_stake": 348.64,
+ "end_reason": "agent",
+ "ended_at": "23:00",
+ "tool_calls": 18087,
+ "tool_errors": 40,
+ "failure_modes": {
+  "never_handled": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "cascade_blind": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "ignored_notice": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "procrastinated": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "worse_choice": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "priority_inversion": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "harmful_churn": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "denied_boarding": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  },
+  "stopped_early": {
+   "count": 0,
+   "examples": [],
+   "value_lost": 0
+  }
+ },
+ "coherence": [
+  {
+   "alert": "OPS-01",
+   "time": "07:00",
+   "kind": "cancel",
+   "bookings_hit": 24,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-02",
+   "time": "10:00",
+   "kind": "delay",
+   "bookings_hit": 15,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-03",
+   "time": "11:00",
+   "kind": "advisory",
+   "bookings_hit": 0,
+   "recovered": null
+  },
+  {
+   "alert": "OPS-04",
+   "time": "12:00",
+   "kind": "delay",
+   "bookings_hit": 8,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-05",
+   "time": "12:00",
+   "kind": "delay",
+   "bookings_hit": 8,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-06",
+   "time": "13:00",
+   "kind": "cancel",
+   "bookings_hit": 13,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-07",
+   "time": "13:00",
+   "kind": "delay",
+   "bookings_hit": 13,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-08",
+   "time": "14:00",
+   "kind": "cancel",
+   "bookings_hit": 8,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-09",
+   "time": "15:00",
+   "kind": "add_flight",
+   "bookings_hit": 0,
+   "recovered": null
+  },
+  {
+   "alert": "OPS-10",
+   "time": "16:00",
+   "kind": "downgauge",
+   "bookings_hit": 1,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-11",
+   "time": "17:00",
+   "kind": "cancel",
+   "bookings_hit": 19,
+   "recovered": 1.0
+  },
+  {
+   "alert": "OPS-12",
+   "time": "18:00",
+   "kind": "delay",
+   "bookings_hit": 0,
+   "recovered": null
+  },
+  {
+   "alert": "OPS-13",
+   "time": "21:00",
+   "kind": "cancel",
+   "bookings_hit": 13,
+   "recovered": 1.0
+  }
+ ]
+}

@@ -1,0 +1,178 @@
+{
+ "size": "standard",
+ "seeds": [
+  1,
+  2,
+  3
+ ],
+ "policies": {
+  "reference": {
+   "scores": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "failure_modes": [
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 0
+    },
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 0
+    },
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 0
+    }
+   ]
+  },
+  "nothing": {
+   "scores": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "failure_modes": [
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 13
+    },
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 13
+    },
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 13
+    }
+   ]
+  },
+  "stop_early": {
+   "scores": [
+    0.0787,
+    0.3084,
+    0.2909
+   ],
+   "failure_modes": [
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 5,
+     "priority_inversion": 1,
+     "harmful_churn": 3,
+     "denied_boarding": 0,
+     "stopped_early": 12
+    },
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 12
+    },
+    {
+     "never_handled": 0,
+     "cascade_blind": 0,
+     "ignored_notice": 0,
+     "procrastinated": 0,
+     "worse_choice": 0,
+     "priority_inversion": 0,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 12
+    }
+   ]
+  },
+  "naive": {
+   "scores": [
+    0.5767,
+    0.7335,
+    0.5179
+   ],
+   "failure_modes": [
+    {
+     "never_handled": 5,
+     "cascade_blind": 2,
+     "ignored_notice": 0,
+     "procrastinated": 12,
+     "worse_choice": 2,
+     "priority_inversion": 13,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 0
+    },
+    {
+     "never_handled": 2,
+     "cascade_blind": 2,
+     "ignored_notice": 0,
+     "procrastinated": 23,
+     "worse_choice": 0,
+     "priority_inversion": 4,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 0
+    },
+    {
+     "never_handled": 11,
+     "cascade_blind": 7,
+     "ignored_notice": 0,
+     "procrastinated": 11,
+     "worse_choice": 0,
+     "priority_inversion": 13,
+     "harmful_churn": 0,
+     "denied_boarding": 0,
+     "stopped_early": 0
+    }
+   ]
+  }
+ }
+}

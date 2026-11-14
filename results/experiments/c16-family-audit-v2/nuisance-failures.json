@@ -1,0 +1,29 @@
+[
+  {
+    "policy": "naive",
+    "seed": 1,
+    "nuisance": "row_order",
+    "baseline_score": 0.5881,
+    "changed_score": 0.647,
+    "baseline_value": 2165.79,
+    "changed_value": 2175.24
+  },
+  {
+    "policy": "naive",
+    "seed": 2,
+    "nuisance": "row_order",
+    "baseline_score": 0.7092,
+    "changed_score": 0.74,
+    "baseline_value": 2171.72,
+    "changed_value": 2175.45
+  },
+  {
+    "policy": "naive",
+    "seed": 3,
+    "nuisance": "row_order",
+    "baseline_score": 0.5978,
+    "changed_score": 0.5954,
+    "baseline_value": 2079.95,
+    "changed_value": 2079.46
+  }
+]

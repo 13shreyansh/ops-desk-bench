@@ -1,0 +1,1 @@
+Infrastructure/adapter failure before model play. OpenCode used a responses-only path with a chat-completions provider and exited with `t.responses is not a function`. Harbor still wrote fallback reward0.000, but this is not a completed model score or difficulty evidence. Retained intact and retried with a named native OpenAI-compatible provider.

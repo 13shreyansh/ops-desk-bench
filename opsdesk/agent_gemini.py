@@ -38,13 +38,13 @@ def call(model: str, contents: list, system: str, retries: int = 6) -> dict:
         body["generationConfig"]["thinkingConfig"] = {"thinkingLevel": os.environ["OPSDESK_THINKING"]}
     for i in range(retries):
         try:
-            r = requests.post(API.format(model=model), params={"key": os.environ["GEMINI_API_KEY"]},
+            r = requests.post(API.format(model=model), headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]},
                               json=body, timeout=600)
             if r.status_code == 200:
                 return r.json()
             err = r.text[:500]
         except requests.RequestException as e:
-            err = str(e)
+            err = type(e).__name__
         time.sleep(min(60, 4 * 2 ** i))
     raise RuntimeError(f"Gemini API failed after {retries} tries: {err}")
 

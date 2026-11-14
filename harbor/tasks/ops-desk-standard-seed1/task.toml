@@ -1,0 +1,25 @@
+version = "1.0"
+
+[metadata]
+author_name = "The CS Guy (Junction 2026)"
+difficulty = "hard"
+category = "agentic-operations"
+tags = ["mcp", "long-horizon", "dynamic", "airline-ops"]
+
+[agent]
+timeout_sec = 10800
+
+[verifier]
+timeout_sec = 900.0
+env = { OPSDESK_GRADER_TOKEN = "${OPSDESK_GRADER_TOKEN}" }
+
+[environment]
+build_timeout_sec = 900.0
+cpus = 1
+memory_mb = 2048
+allow_internet = true
+
+[[environment.mcp_servers]]
+name = "opsdesk"
+transport = "streamable-http"
+url = "http://mcp-server:8000/mcp"

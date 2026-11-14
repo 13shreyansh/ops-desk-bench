@@ -7,10 +7,7 @@
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--ref)}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-.hero{background:radial-gradient(1200px 400px at 20% -10%,#1b2b52 0%,transparent 60%),linear-gradient(180deg,#0e1730,#0b1220);border-bottom:1px solid var(--line);padding:56px 0 28px}
-.kicker{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;color:var(--agent);display:flex;align-items:center;gap:10px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--agent);box-shadow:0 0 12px var(--agent);animation:pulse 1.6s infinite}
-@keyframes pulse{50%{opacity:.35}}
+.hero{background:#0e1730;border-bottom:1px solid var(--line);padding:56px 0 28px}
 h1{font-size:clamp(28px,4.6vw,48px);line-height:1.08;margin:16px 0 14px;font-weight:800;letter-spacing:-.02em}
 .lede{color:#c3cde0;max-width:760px;font-size:17px;line-height:1.55}
 .lede b{color:var(--text)}
@@ -23,7 +20,6 @@ h1{font-size:clamp(28px,4.6vw,48px);line-height:1.08;margin:16px 0 14px;font-wei
 .tabs button.on{color:var(--bg);background:var(--ref);border-color:var(--ref)}
 section{padding:34px 0 6px}
 h2{font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:12px}
-.num{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--agent);border:1px solid #4a3a16;border-radius:6px;padding:2px 7px}
 .sub{color:var(--muted);margin:0 0 16px;max-width:800px;line-height:1.5}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;overflow-x:auto}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
@@ -47,3 +43,5 @@ svg text{fill:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
 .bar{height:10px;border-radius:5px;background:var(--panel2);position:relative;min-width:120px}
 .bar span{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
 @media (max-width:640px){.hero{padding-top:36px}.lede{font-size:15px}}
+
+.evidence-state{padding:16px 0;border-block:1px solid var(--line);color:var(--text);max-width:76ch;line-height:1.5}.evidence-links{font-size:14px;line-height:1.6}a{text-underline-offset:3px}button:focus-visible,a:focus-visible{outline:2px solid var(--ref);outline-offset:4px}::selection{background:#5eead4;color:#0b1220}.stat .v,td.n{font-variant-numeric:tabular-nums}svg{min-width:620px}.card{overscroll-behavior-x:contain}@media(prefers-reduced-motion:reduce){*{animation:none!important}}

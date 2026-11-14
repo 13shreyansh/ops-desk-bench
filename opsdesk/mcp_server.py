@@ -3,13 +3,14 @@
 Environment variables:
   OPSDESK_SEED   scenario seed (default 0)
   OPSDESK_SIZE   small | standard (default standard)
-  OPSDESK_GRADER_TOKEN  if set, enables GET /grade?token=... for the verifier (never shown to the agent)
+  OPSDESK_GRADER_TOKEN  if set, enables GET /grade with a private Authorization header for the verifier (never shown to the agent)
   OPSDESK_LOG_DIR  where to write the final snapshot when graded (optional)
 """
 from __future__ import annotations
 
 import json
 import os
+import secrets
 import sys
 import threading
 from pathlib import Path
@@ -22,7 +23,7 @@ SEED = int(os.environ.get("OPSDESK_SEED", "0"))
 SIZE = os.environ.get("OPSDESK_SIZE", "standard")
 TOKEN = os.environ.get("OPSDESK_GRADER_TOKEN", "")
 
-ENV = OpsDesk(SEED, SIZE)
+ENV = OpsDesk(SEED, SIZE, os.environ.get("OPSDESK_PROFILE", "all"))
 LOCK = threading.Lock()
 mcp = FastMCP("opsdesk", host="0.0.0.0", port=int(os.environ.get("PORT", "8000")),
               instructions=(Path(__file__).with_name("instruction.md")).read_text())
@@ -111,7 +112,7 @@ if TOKEN:
 
     @mcp.custom_route("/grade", methods=["GET"])
     async def grade(request: Request):
-        if request.query_params.get("token") != TOKEN:
+        if not secrets.compare_digest(request.headers.get("authorization", ""), "Bearer " + TOKEN):
             return JSONResponse({"error": "forbidden"}, status_code=403)
         from .verify import report
         with LOCK:

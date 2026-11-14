@@ -1,0 +1,12 @@
+timestamp=2026-11-14T16:20:32.217Z level=INFO run=19c80ac9 message="creating instance" directory=/app
+timestamp=2026-11-14T16:20:32.218Z level=INFO run=19c80ac9 message=fromDirectory directory=/app
+timestamp=2026-11-14T16:20:32.221Z level=INFO run=19c80ac9 message=bootstrapping directory=/app
+timestamp=2026-11-14T16:20:32.223Z level=INFO run=19c80ac9 message=loading path=/root/.config/opencode/config.json
+timestamp=2026-11-14T16:20:32.223Z level=INFO run=19c80ac9 message=loading path=/root/.config/opencode/opencode.json
+timestamp=2026-11-14T16:20:32.226Z level=INFO run=19c80ac9 message=loading path=/root/.config/opencode/opencode.jsonc
+timestamp=2026-11-14T16:20:32.387Z level=INFO run=19c80ac9 message="all LSPs are disabled"
+timestamp=2026-11-14T16:20:32.387Z level=INFO run=19c80ac9 message="all formatters are disabled"
+timestamp=2026-11-14T16:20:32.387Z level=INFO run=19c80ac9 message=init
+timestamp=2026-11-14T16:20:32.535Z level=INFO run=19c80ac9 message=created id=ses_e2523b568ffeWKe49LbB5Y0Dl9 slug=happy-squid version=1.19.5 projectID=global directory=/app path=app workspaceID=undefined parentID=undefined title="New session - 2026-11-14T16:20:32.535Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1794673232535 time.updated=1794673232535
+timestamp=2026-11-14T16:20:32.571Z level=INFO run=19c80ac9 message="event connected"
+timestamp=2026-11-14T16:20:32.593Z level=INFO run=19c80ac9 message=loop session.id=ses_e2523b568ffeWKe49LbB5Y0Dl9 step=0

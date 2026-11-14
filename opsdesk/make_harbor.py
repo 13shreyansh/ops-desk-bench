@@ -9,7 +9,6 @@ that only the verifier knows.
 from __future__ import annotations
 
 import argparse
-import secrets
 import shutil
 from pathlib import Path
 
@@ -29,7 +28,7 @@ timeout_sec = {agent_timeout}
 
 [verifier]
 timeout_sec = 900.0
-env = {{ OPSDESK_GRADER_TOKEN = "{token}" }}
+env = {{ OPSDESK_GRADER_TOKEN = "${{OPSDESK_GRADER_TOKEN}}" }}
 
 [environment]
 build_timeout_sec = 900.0
@@ -54,7 +53,8 @@ COMPOSE = """services:
     environment:
       OPSDESK_SEED: "{seed}"
       OPSDESK_SIZE: "{size}"
-      OPSDESK_GRADER_TOKEN: "{token}"
+      OPSDESK_PROFILE: "{profile}"
+      OPSDESK_GRADER_TOKEN: "${{OPSDESK_GRADER_TOKEN:?Set a fresh private grading token in the host environment}}"
     expose:
       - "8000"
     healthcheck:
@@ -81,7 +81,7 @@ TEST_SH = """#!/bin/bash
 # Asks the environment sidecar to finish the day and grade it. The token is only in the verifier's env.
 set -u
 mkdir -p /logs/verifier
-python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen('http://mcp-server:8000/grade?token='+os.environ['OPSDESK_GRADER_TOKEN'], timeout=600).read())" \
+python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen(urllib.request.Request('http://mcp-server:8000/grade', headers={'Authorization': 'Bearer '+os.environ['OPSDESK_GRADER_TOKEN']}), timeout=600).read())" \
   || echo "grade request failed" >&2
 if [ ! -s /logs/verifier/grade.json ]; then
   echo 0 > /logs/verifier/reward.txt
@@ -119,17 +119,16 @@ Use only those tools to do the job below.
 """
 
 
-def build(seeds: list[int], size: str, out: Path, agent_timeout: int, dev_ca: str | None = None):
+def build(seeds: list[int], size: str, out: Path, agent_timeout: int, dev_ca: str | None = None, profile: str = "all"):
     out.mkdir(parents=True, exist_ok=True)
     for seed in seeds:
-        d = out / f"ops-desk-{size}-seed{seed}"
+        d = out / (f"ops-desk-{size}-seed{seed}" + (f"-{profile}" if profile != "all" else ""))
         if d.exists():
             shutil.rmtree(d)
-        token = secrets.token_hex(16)
         (d / "environment" / "mcp-server").mkdir(parents=True)
         (d / "tests").mkdir()
         (d / "solution").mkdir()
-        (d / "task.toml").write_text(TASK_TOML.format(token=token, agent_timeout=agent_timeout))
+        (d / "task.toml").write_text(TASK_TOML.format(agent_timeout=agent_timeout))
         (d / "instruction.md").write_text(INSTR_HEAD + (PKG / "instruction.md").read_text())
         main_df = MAIN_DOCKERFILE
         if dev_ca:  # local testing behind a TLS-intercepting proxy only
@@ -144,7 +143,7 @@ def build(seeds: list[int], size: str, out: Path, agent_timeout: int, dev_ca: st
                         "&& printf '#!/bin/sh\\necho curl shim >&2; exit 1\\n' > /usr/local/bin/curl && chmod +x /usr/local/bin/curl "
                         "&& npm i -g opencode-ai@latest && opencode --version\n")
         (d / "environment" / "Dockerfile").write_text(main_df)
-        (d / "environment" / "docker-compose.yaml").write_text(COMPOSE.format(seed=seed, size=size, token=token))
+        (d / "environment" / "docker-compose.yaml").write_text(COMPOSE.format(seed=seed, size=size, profile=profile))
         ca = ""
         if dev_ca:  # only for building behind a TLS-intercepting proxy; never used for the submitted tasks
             shutil.copy(dev_ca, d / "environment" / "mcp-server" / "dev-ca.crt")
@@ -165,7 +164,8 @@ if __name__ == "__main__":
     ap.add_argument("--seeds", type=int, nargs="+", default=[1, 2, 3])
     ap.add_argument("--size", default="standard")
     ap.add_argument("--out", default=str(ROOT / "harbor" / "tasks"))
+    ap.add_argument("--profile", choices=["all", "development", "final"], default="all")
     ap.add_argument("--agent-timeout", type=int, default=10800)
     ap.add_argument("--dev-ca", default=None, help=argparse.SUPPRESS)
     a = ap.parse_args()
-    build(a.seeds, a.size, Path(a.out), a.agent_timeout, a.dev_ca)
+    build(a.seeds, a.size, Path(a.out), a.agent_timeout, a.dev_ca, a.profile)
