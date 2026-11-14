@@ -19,6 +19,7 @@ The original report's `stopped_early` detector misses harness-triggered endings 
 
 - First OpenAI Router adapter attempt used a Responses API path with a chat-completions provider. OpenCode exited with `t.responses is not a function`. Its fallback reward0 is not model performance.
 - Gemini3.8 Flash and Gemini4 Argon returned HTTP402 before play. The account reported depleted prepayment credits. Their fallback zeros are infrastructure, not a gap.
-- Initial allowlist validation lacked Docker Buildx, then encountered Compose exposure/DNS and proxy socket limits. Keep those failures as packaging evidence. They are not agent failures and do not establish oracle0 performance.
+- Initial allowlist validation lacked Docker Buildx, then encountered Compose exposure/DNS and proxy socket limits.
+- GPT-5 seed1's first stronger trajectory stopped at08:00 after rebooking, but the builder had changed its live verifier assets by regenerating the task directory. ConnectionRefused/fallback0 is excluded, and a fresh immutable rerun is required. The generator now rejects overwrites. Keep those failures as packaging evidence. They are not agent failures and do not establish oracle0 performance.
 
 The full ledger lists all world versions. Old-world Argon1.268 and Flash0.833/0.957/0.838 remain calibration. No established current-world frontier advantage is claimed.

@@ -188,6 +188,8 @@ The existing Hostinger Router is also supported through the committed native pro
 
 The provider JSON contains an environment reference, never a key. Context/output limits are harness configuration, not measured provider limits. Google inference on the existing event credential currently returns402, so model-list availability must not be mistaken for funded inference.
 
+Task generation refuses to overwrite existing task directories, because Harbor reads verifier assets after model play. Each experiment gets its own task snapshot.
+
 Each command creates a new directory under `results/experiments/`, records source hashes, inputs, runner and times, and refuses to overwrite an existing name. The Harbor suite generates normal tasks and a transient private grader token in memory, then invokes the real Harbor executable. It never emulates OpenCode with a custom runner.
 
 The new development/final audit separates entire disruption families. [The protocol](eval/PROTOCOL.md) states the prior builder exposure and why this is not yet unseen-family model evidence. Repeated deterministic reference seeds do not count as repeated stochastic model trials. Assess multiple provider/model families when access permits; the judges' model list is undisclosed.
@@ -197,7 +199,9 @@ For direct `harbor run` commands below, set a fresh `OPSDESK_GRADER_TOKEN` in yo
 ### With Harbor (the judges' harness)
 
 ```bash
-python -m opsdesk.make_harbor --seeds 1 2 3 --size standard     # writes harbor/tasks/ops-desk-standard-seed{1,2,3}
+# Normal tasks are committed already. Never regenerate a task directory while a run uses it.
+# To generate another immutable copy, choose a NEW output directory:
+python -m opsdesk.make_harbor --seeds 1 2 3 --size standard --out work/new-tasks
 harbor run -p harbor/tasks/ops-desk-standard-seed1 -a oracle    # reference desk over MCP  -> reward 1.0
 harbor run -p harbor/tasks/ops-desk-standard-seed1 -a nop       # do nothing               -> reward 0.0
 harbor run -p harbor/tasks/ops-desk-standard-seed1 -a opencode -m google/gemini-3.8-flash --api-key-name GEMINI_API_KEY

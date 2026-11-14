@@ -120,11 +120,13 @@ Use only those tools to do the job below.
 
 
 def build(seeds: list[int], size: str, out: Path, agent_timeout: int, dev_ca: str | None = None, profile: str = "all"):
+    names = [f"ops-desk-{size}-seed{seed}" + (f"-{profile}" if profile != "all" else "") for seed in seeds]
+    existing = [out / name for name in names if (out / name).exists()]
+    if existing:
+        raise FileExistsError(f"Refusing to overwrite an existing task, which may be in use: {existing[0]}. Choose a fresh --out directory.")
     out.mkdir(parents=True, exist_ok=True)
-    for seed in seeds:
-        d = out / (f"ops-desk-{size}-seed{seed}" + (f"-{profile}" if profile != "all" else ""))
-        if d.exists():
-            shutil.rmtree(d)
+    for seed, name in zip(seeds, names):
+        d = out / name
         (d / "environment" / "mcp-server").mkdir(parents=True)
         (d / "tests").mkdir()
         (d / "solution").mkdir()

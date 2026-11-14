@@ -1,0 +1,40 @@
+{
+    "schema_version": 1,
+    "id": "73cd90ec-c009-492c-a171-55f43de176e1",
+    "started_at": "2026-11-14T18:27:54.273528",
+    "updated_at": "2026-11-14T18:43:14.709127",
+    "finished_at": "2026-11-14T18:43:14.709127",
+    "n_total_trials": 1,
+    "stats": {
+        "n_completed_trials": 1,
+        "n_errored_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "opencode__hostinger/gpt-5__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "mean": 0.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "ops-desk-standard-seed1__qEjkbMs"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        },
+        "n_input_tokens": 2197095,
+        "n_cache_tokens": 2094464,
+        "n_output_tokens": 6258,
+        "cost_usd": null
+    }
+}
