@@ -9,7 +9,7 @@ import copy
 import json
 from dataclasses import dataclass, field
 
-from .world import (AIRCRAFT, CHECKIN_CUTOFF, HUB, MCT, SHIFT_END, SHIFT_START, SIM_END, TICK,
+from .world import (AIRCRAFT, TURNAROUND, CHECKIN_CUTOFF, HUB, MCT, PARTNER_SEATS, SHIFT_END, SHIFT_START, SIM_END, TICK,
                     Booking, Flight, generate, hhmm)
 
 
@@ -50,6 +50,7 @@ class OpsDesk:
         self.seq = max(b.booked_seq for b in self.bookings.values())
         self.tool_calls = 0
         self.tool_errors = 0
+        self.dyn_alerts: list[dict] = []
         self._fire_events()
         self._scan()
 
@@ -148,7 +149,7 @@ class OpsDesk:
                     self.flights[spec["id"]] = Flight(spec["id"], spec["origin"], spec["dest"], spec["std"],
                                                       spec["std"] + spec["block"], spec["std"],
                                                       spec["std"] + spec["block"], "E190", AIRCRAFT["E190"],
-                                                      tail="OH-REC", added=True, visible_from=e.at)
+                                                      tail=f"OH-R{spec['id'][-2:]}", added=True, visible_from=e.at)
             self._dirty = True
             if e.kind == "downgauge":
                 f = self.flights[pl["flight"]]
@@ -176,10 +177,14 @@ class OpsDesk:
 
     def _fly_until(self, t_end: int):
         """Operate every flight whose departure falls in (now, t_end], in time order."""
-        deps = sorted([f for f in self.flights.values()
-                       if f.status in ("scheduled", "delayed") and self.now < f.etd <= t_end],
-                      key=lambda f: (f.etd, f.id))
-        for f in deps:
+        done: set[str] = set()
+        while True:
+            deps = [f for f in self.flights.values() if f.id not in done
+                    and f.status in ("scheduled", "delayed") and self.now < f.etd <= t_end]
+            if not deps:
+                break
+            f = min(deps, key=lambda f: (f.etd, f.id))
+            done.add(f.id)
             self._land(f.etd)
             on = sorted([p for p in self.bookings
                          if self._remaining(p) and self._remaining(p)[0] == f.id],
@@ -200,10 +205,30 @@ class OpsDesk:
                 st._dest = f.dest  # type: ignore[attr-defined]
             f.status = "departed"
             self._dirty = True
+            self._knock_on(f)
         self._land(t_end)
         for f in self.flights.values():
             if f.status == "departed" and f.eta <= t_end:
                 f.status = "arrived"
+
+    def _knock_on(self, f: Flight):
+        """Once a late aircraft is airborne, its next flight is re-timed (40 min minimum turnaround)."""
+        if f.carrier != "AU":
+            return
+        nxt = sorted([g for g in self.flights.values() if g.tail == f.tail and g.carrier == "AU"
+                      and g.std > f.std and g.status in ("scheduled", "delayed")], key=lambda g: g.std)
+        if not nxt:
+            return
+        g = nxt[0]
+        need = f.eta + TURNAROUND
+        if need > g.etd:
+            shift = need - g.etd
+            g.etd, g.eta, g.status = need, g.eta + shift, "delayed"
+            self._dirty = True
+            self.dyn_alerts.append({"id": f"KNOCK-{len(self.dyn_alerts) + 1:02d}", "t": f.etd,
+                                    "time": hhmm(f.etd),
+                                    "text": f"Knock-on delay: aircraft {g.tail} is late from {f.id}; "
+                                            f"{g.id} {g.origin}-{g.dest} now departs {hhmm(g.etd)} (was {hhmm(g.std)})."})
 
     def _step_to(self, t: int):
         while self.now < t:
@@ -238,15 +263,17 @@ class OpsDesk:
         return {
             "time": hhmm(self.now), "shift_ends": hhmm(SHIFT_END), "shift_over": self.ended,
             "alerts_published": len(self.fired),
+            "partner_seats_left": self.partner_left(),
             "bookings_with_problems": len(dis),
             "passengers_with_problems": sum(self.bookings[p].pax for p in dis),
         }
 
     def t_read_alerts(self, since: str | None = None):
-        out = []
-        for e in self.events:
-            if e.id in self.fired:
-                out.append({"id": e.id, "time": hhmm(e.at), "text": e.text})
+        out = [{"id": e.id, "time": hhmm(e.at), "text": e.text, "_t": e.at} for e in self.events if e.id in self.fired]
+        out += [{"id": a["id"], "time": a["time"], "text": a["text"], "_t": a["t"]} for a in self.dyn_alerts]
+        out.sort(key=lambda a: (a["_t"], a["id"]))
+        for a in out:
+            a.pop("_t")
         if since:
             ids = [a["id"] for a in out]
             if since in ids:
@@ -254,9 +281,10 @@ class OpsDesk:
         return {"now": hhmm(self.now), "alerts": out}
 
     def _flight_view(self, f: Flight, manifest=False):
-        d = {"flight": f.id, "from": f.origin, "to": f.dest, "dep": hhmm(f.etd), "arr": hhmm(f.eta),
+        d = {"flight": f.id, "carrier": f.carrier, "aircraft_reg": f.tail, "from": f.origin, "to": f.dest, "dep": hhmm(f.etd), "arr": hhmm(f.eta),
              "status": f.status, "aircraft": f.aircraft, "seats": f.seats,
-             "seats_free": self._avail(f.id) if f.status in ("scheduled", "delayed") else 0}
+             "seats_free": (self._avail(f.id) if f.carrier == "AU" else "partner")
+             if f.status in ("scheduled", "delayed") else 0}
         if f.etd != f.std:
             d["scheduled_dep"] = hhmm(f.std)
         if manifest:
@@ -270,7 +298,8 @@ class OpsDesk:
         hi = _parse(before) if before else SIM_END
         fl = sorted([f for f in self.flights.values() if self._visible(f)
                      and (origin is None or f.origin == origin.upper())
-                     and (dest is None or f.dest == dest.upper()) and lo <= f.etd <= hi],
+                     and (dest is None or f.dest == dest.upper()) and lo <= f.etd <= hi
+                     and (f.carrier == "AU" or origin or dest)],
                     key=lambda f: (f.etd, f.id))
         cap = 150 if (origin or dest) else 60
         return {"now": hhmm(self.now), "flights": [self._flight_view(f) for f in fl[:cap]],
@@ -320,8 +349,10 @@ class OpsDesk:
                 rows.append(r)
         return {"now": hhmm(self.now), "count": len(rows), "bookings": rows}
 
-    def options(self, p: str, ignore: set[str] = frozenset(), limit: int = 6) -> list[list[str]]:
-        """Legal itineraries from the group's current position, earliest arrival first."""
+    def options(self, p: str, ignore: set[str] = frozenset(), limit: int = 6, partner: bool = False,
+                include_full: bool = False) -> list[list[str]]:
+        """Legal itineraries from the group's current position, earliest arrival first.
+        partner=False: own flights only. partner=True: itineraries using at least one partner flight."""
         b, st = self.bookings[p], self.state[p]
         if st.location is None or st.arrived_at is not None:
             return []
@@ -331,8 +362,12 @@ class OpsDesk:
         def ok(f: Flight, t_ready: int):
             if f.id in ignore or not self._visible(f) or f.status not in ("scheduled", "delayed"):
                 return False
+            if f.carrier == "NL" and not partner:
+                return False
             if f.etd < t_ready or f.etd > SIM_END:
                 return False
+            if include_full and f.carrier == "AU":
+                return True
             free = self._avail(f.id) + (b.pax if f.id in own else 0)
             return free >= b.pax
 
@@ -346,10 +381,19 @@ class OpsDesk:
                 for g in self.flights.values():
                     if g.origin == HUB and g.dest == b.dest and ok(g, f.eta + MCT):
                         res.append([f.id, g.id])
+        if partner:
+            res = [it for it in res if any(self.flights[x].carrier == "NL" for x in it)]
         res.sort(key=lambda it: (self.flights[it[-1]].eta, len(it), it))
         return res[:limit]
 
-    def t_search_itineraries(self, pnrs: list[str]):
+    def partner_used(self) -> int:
+        return sum(b.pax for b in self.bookings.values()
+                   if any(self.flights[x].carrier == "NL" for x in b.itinerary))
+
+    def partner_left(self) -> int:
+        return PARTNER_SEATS[self.size] - self.partner_used()
+
+    def t_search_itineraries(self, pnrs: list[str], include_full: bool = False):
         if isinstance(pnrs, str):
             pnrs = [pnrs]
         if not pnrs or len(pnrs) > 20:
@@ -364,12 +408,15 @@ class OpsDesk:
             if st.arrived_at is not None or st.location is None:
                 out.append({"pnr": p, "error": "already arrived" if st.arrived_at is not None else "airborne"})
                 continue
+            view = lambda it: {"flights": it, "dep": hhmm(self.flights[it[0]].etd),
+                               "arr": hhmm(self.flights[it[-1]].eta),
+                               "seats_free": min(self._avail(x) if self.flights[x].carrier == "AU" else 999 for x in it)}
             out.append({"pnr": p, "at": st.location, "to": self.bookings[p].dest, "pax": self.bookings[p].pax,
-                        "options": [{"flights": it, "dep": hhmm(self.flights[it[0]].etd),
-                                     "arr": hhmm(self.flights[it[-1]].eta),
-                                     "seats_free": min(self._avail(x) for x in it)} for it in self.options(p, limit=10)]})
-        return {"now": hhmm(self.now),
-                "note": "Published schedule with current estimates and free seats. Notices about future closures are NOT applied.",
+                        "options": [view(it) for it in self.options(p, limit=8, include_full=include_full)],
+                        "partner_options": [view(it) for it in self.options(p, limit=3, partner=True)]})
+        return {"now": hhmm(self.now), "partner_seats_left": self.partner_left(),
+                "note": "Published schedule with current estimates and free seats. Notices about future closures are NOT applied."
+                        + (" include_full: options may lack enough free seats; free them first." if include_full else ""),
                 "results": out}
 
     def t_rebook(self, changes: list[dict]):
@@ -420,6 +467,10 @@ class OpsDesk:
             loc, t_ready = f.dest, f.eta + MCT
         if loc != b.dest:
             raise ActionError(f"itinerary ends at {loc}, booking goes to {b.dest}")
+        uses_nl = any(self.flights[x].carrier == "NL" for x in flights)
+        had_nl = any(self.flights[x].carrier == "NL" for x in b.itinerary)
+        if uses_nl and not had_nl and self.partner_left() < b.pax:
+            raise ActionError(f"partner allowance: {self.partner_left()} seats left, booking has {b.pax} passengers")
         old = self._remaining(p)
         best = self.options(p, limit=1)
         had_problem = bool(self.problems(p))
@@ -442,9 +493,11 @@ class OpsDesk:
         if minutes not in (30, 60):
             raise ActionError("minutes must be 30 or 60")
         before = set(self.fired)
+        nd = len(self.dyn_alerts)
         self._step_to(min(SHIFT_END, self.now + minutes))
         new = [{"id": e.id, "time": hhmm(e.at), "text": e.text} for e in self.events
                if e.id in self.fired and e.id not in before]
+        new += [{"id": a["id"], "time": a["time"], "text": a["text"]} for a in self.dyn_alerts[nd:]]
         denied = [l.data for l in self.log if l.kind == "denied_boarding" and self.now - minutes < l.t <= self.now]
         out = {"now": hhmm(self.now), "new_alerts": new}
         if denied:

@@ -17,6 +17,9 @@ SHIFT_END = 23 * 60
 DAY2 = 24 * 60
 SIM_END = DAY2 + 16 * 60  # flights after this are not simulated
 TICK = 60
+TURNAROUND = 40   # minimum ground time between two flights of the same aircraft
+PARTNER_SEATS = {"small": 14, "standard": 20}   # passengers per day the desk may put on the partner airline
+PARTNER_OUT = [8 * 60 + 15, 12 * 60 + 45, 17 * 60 + 15, 24 * 60 + 8 * 60 + 15]
 
 # spoke code -> (block minutes, city name, daily banks served on day 1)
 SPOKES = {
@@ -63,6 +66,7 @@ class Flight:
     status: str = "scheduled"   # scheduled | delayed | cancelled | departed | arrived
     added: bool = False         # recovery flight created mid-day
     visible_from: int = 0       # minute the flight becomes public
+    carrier: str = "AU"         # AU = own airline, NL = partner (seats come from the daily partner allowance)
 
 
 @dataclass
@@ -156,7 +160,7 @@ def generate(seed: int = 0, size: str = "standard") -> Scenario:
             t = [f"OH-{len(tails) + 1:03d}", f.origin, 0, f.aircraft]
             tails.append(t)
         f.tail = t[0]
-        t[1], t[2] = f.dest, f.sta + 40
+        t[1], t[2] = f.dest, f.sta + TURNAROUND
 
     # --- demand
     bookings: dict[str, Booking] = {}
@@ -210,6 +214,16 @@ def generate(seed: int = 0, size: str = "standard") -> Scenario:
             tries += 1
             add([f])
 
+    # partner airline (NordicLink): a few frequencies per spoke, effectively unlimited seats,
+    # but every passenger placed on it uses the desk's daily partner allowance
+    for s in spokes:
+        block = SPOKES[s][0] + 10
+        for i, dep in enumerate(PARTNER_OUT):
+            for (o, d, t) in ((HUB, s, dep), (s, HUB, dep + block + 50)):
+                fid = f"NL{3000 + len([f for f in flights.values() if f.carrier == 'NL']) * 7 + i}"
+                flights[fid] = Flight(fid, o, d, t, t + block, t, t + block, "partner", 999, tail="NL",
+                                      carrier="NL")
+
     events = _disruptions(rng, flights, spokes)
     return Scenario(seed, size, flights, bookings, events)
 
@@ -217,7 +231,7 @@ def generate(seed: int = 0, size: str = "standard") -> Scenario:
 def _disruptions(rng: random.Random, flights: dict[str, Flight], spokes: list[str]) -> list[Event]:
     """The disruption script. The shape is fixed, the targets depend on the seed."""
     ev: list[Event] = []
-    day1 = sorted([f for f in flights.values() if f.std < DAY2], key=lambda f: (f.std, f.id))
+    day1 = sorted([f for f in flights.values() if f.std < DAY2 and f.carrier == "AU"], key=lambda f: (f.std, f.id))
     n = [0]
 
     def eid():
@@ -239,11 +253,35 @@ def _disruptions(rng: random.Random, flights: dict[str, Flight], spokes: list[st
                     {"flights": [g.id for g in legs]}))
     used = {legs[0].dest if legs[0].origin == HUB else legs[0].origin}
 
-    # 2. 09:00 inbound delay that breaks connections
-    f = pick(9 * 60 + 30, 11 * 60, lambda f: f.dest == HUB and f.origin not in used)
-    ev.append(Event(eid(), 9 * 60, "delay",
-                    f"{f.id} {f.origin}-{HUB} delayed 100 minutes (late inbound crew).",
-                    {"flight": f.id, "minutes": 100}))
+    def knock(f, d):
+        """How many later same-day legs of this aircraft a d-minute delay on f would push back."""
+        legs = sorted([g for g in day1 if g.tail == f.tail and g.std > f.std], key=lambda g: g.std)
+        n, arr = 0, f.sta + d
+        for g in legs:
+            if arr + TURNAROUND <= g.std:
+                break
+            n += 1
+            arr = g.sta + (arr + TURNAROUND - g.std)
+        return n
+
+    def pick_chain(lo, hi, d, pred=lambda f: True):
+        c = [f for f in day1 if lo <= f.std <= hi and pred(f)]
+        best = max((knock(f, d) for f in c), default=0)
+        top = sorted([f for f in c if knock(f, d) == best], key=lambda f: f.id)
+        return rng.choice(top) if top else pick(lo, hi, pred)
+
+    # 2. 12:00 crew delay: it ripples through the rest of that aircraft's day
+    f = pick_chain(12 * 60 + 30, 14 * 60, 150, lambda f: f.origin not in used)
+    ev.append(Event(eid(), 12 * 60, "delay",
+                    f"{f.id} {f.origin}-{f.dest} delayed 150 minutes (crew rest requirement), aircraft {f.tail}.",
+                    {"flight": f.id, "minutes": 150}))
+    used.add(f.dest if f.origin == HUB else f.origin)
+
+    # 2b. 10:00 inbound delay that breaks connections at the hub
+    f = pick_chain(10 * 60 + 30, 12 * 60, 110, lambda f: f.dest == HUB and f.origin not in used)
+    ev.append(Event(eid(), 10 * 60, "delay",
+                    f"{f.id} {f.origin}-{HUB} delayed 110 minutes (late inbound crew), aircraft {f.tail}.",
+                    {"flight": f.id, "minutes": 110}))
 
     # 3. 11:00 closure notice for the busiest spoke in the afternoon; cancellations applied at 14:00
     w0, w1 = 14 * 60 + 30, 19 * 60
@@ -303,17 +341,27 @@ def _disruptions(rng: random.Random, flights: dict[str, Flight], spokes: list[st
                     f"Bird strike inspection on {f.tail}. Flights {', '.join(g.id for g in legs)} are CANCELLED.",
                     {"flights": [g.id for g in legs]}))
 
-    # 8. 18:00 delay on an inbound feeding the evening bank
+    # 8. 13:00 afternoon delay with a knock-on into the evening
+    f = pick_chain(13 * 60 + 30, 16 * 60, 120, lambda f: f.origin not in used and f.dest not in (ap,))
+    ev.append(Event(eid(), 13 * 60, "delay",
+                    f"{f.id} {f.origin}-{f.dest} delayed 120 minutes (hydraulic leak check), aircraft {f.tail}.",
+                    {"flight": f.id, "minutes": 120}))
+
+    # 8b. 18:00 delay on an inbound feeding the evening bank
     f = pick(18 * 60 + 15, 19 * 60, lambda f: f.dest == HUB and f.origin not in used)
     ev.append(Event(eid(), 18 * 60, "delay",
-                    f"{f.id} {f.origin}-{HUB} delayed 80 minutes (ATC flow restriction).",
+                    f"{f.id} {f.origin}-{HUB} delayed 80 minutes (ATC flow restriction), aircraft {f.tail}.",
                     {"flight": f.id, "minutes": 80}))
 
     # 9. 21:00 tomorrow's first wave loses a flight (hits people rebooked onto it earlier)
-    d2 = sorted([g for g in flights.values() if DAY2 <= g.std < DAY2 + 9 * 60 and g.origin == HUB],
+    d2 = sorted([g for g in flights.values() if DAY2 <= g.std < DAY2 + 9 * 60 and g.origin == HUB and g.carrier == "AU"],
                 key=lambda g: (-sum(1 for x in closed if flights[x].dest == g.dest), g.std, g.id))
     g = d2[0]
     ev.append(Event(eid(), 21 * 60, "cancel",
                     f"Crew duty-time limit: tomorrow's {g.id} {HUB}-{g.dest} ({hhmm(g.std)}) is CANCELLED.",
                     {"flights": [g.id]}))
-    return sorted(ev, key=lambda e: (e.at, e.id))
+    ev.sort(key=lambda e: (e.at, e.id))
+    for i, e in enumerate(ev):  # number alerts in the order they fire
+        old = e.id
+        e.id = f"OPS-{i + 1:02d}"
+    return ev

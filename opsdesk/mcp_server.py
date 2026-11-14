@@ -35,7 +35,7 @@ def _run(name: str, args: dict) -> str:
 
 @mcp.tool()
 def get_status() -> str:
-    """Current sim time, shift end, number of alerts published and how many bookings currently have problems."""
+    """Current sim time, shift end, number of alerts published, partner seats left and how many bookings currently have problems."""
     return _run("get_status", {})
 
 
@@ -75,11 +75,12 @@ def find_disrupted_bookings() -> str:
 
 
 @mcp.tool()
-def search_itineraries(pnrs: list[str]) -> str:
+def search_itineraries(pnrs: list[str], include_full: bool = False) -> str:
     """For up to 20 bookings, the legal itineraries (direct or via HEL) from where the group is now, earliest
-    arrival first, with free seats. Respects check-in cut-off and minimum connection time. Does not apply notices
-    about future closures."""
-    return _run("search_itineraries", {"pnrs": pnrs})
+    arrival first, with free seats, plus up to 3 partner-airline options. Respects check-in cut-off and minimum
+    connection time. Does not apply notices about future closures or knock-on delays that have not happened yet.
+    include_full=true also lists own-airline itineraries that are full."""
+    return _run("search_itineraries", {"pnrs": pnrs, "include_full": include_full})
 
 
 @mcp.tool()

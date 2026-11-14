@@ -2,7 +2,7 @@
 
 TOOLS = [
     {"name": "get_status",
-     "description": "Current sim time, shift end, number of alerts published and how many bookings currently have problems.",
+     "description": "Current sim time, shift end, number of alerts published, partner seats left and how many bookings currently have problems.",
      "parameters": {"type": "object", "properties": {}}},
     {"name": "read_alerts",
      "description": "All operations alerts published so far (cancellations, delays, notices, added flights), oldest first. "
@@ -27,9 +27,11 @@ TOOLS = [
      "parameters": {"type": "object", "properties": {}}},
     {"name": "search_itineraries",
      "description": "For up to 20 bookings, the legal itineraries (direct or via HEL) from where the group is now, "
-                    "earliest arrival first, with free seats. Respects check-in cut-off and minimum connection time. "
-                    "Does not apply notices about future closures.",
-     "parameters": {"type": "object", "properties": {"pnrs": {"type": "array", "items": {"type": "string"}}},
+                    "earliest arrival first, with free seats, plus up to 3 partner-airline options. Respects check-in "
+                    "cut-off and minimum connection time. Does not apply notices about future closures or knock-on "
+                    "delays that have not happened yet. include_full=true also lists own-airline itineraries that are full.",
+     "parameters": {"type": "object", "properties": {"pnrs": {"type": "array", "items": {"type": "string"}},
+                                                     "include_full": {"type": "boolean"}},
                     "required": ["pnrs"]}},
     {"name": "rebook",
      "description": "Replace the remaining itinerary of up to 25 bookings. Each change is {pnr, flights:[...]}; "

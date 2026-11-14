@@ -22,7 +22,15 @@ Only where passengers actually end up counts. What you say in messages or the ha
 - All times are HEL time. Minimum connection at HEL is 35 minutes. A booking can only be changed at least
   20 minutes before the new first flight departs, and not while the group is in the air.
 - Seats are limited; a group of N passengers needs N free seats on every flight of its itinerary.
+  You may move any booking, including ones that are fine, for example to free seats for a group that needs them more.
+  `search_itineraries` with `include_full: true` also shows itineraries that are currently full.
 - If a flight is oversold at departure, the latest-changed bookings are denied boarding first.
+- Each aircraft (`aircraft_reg`) flies a rotation of flights. It needs 40 minutes on the ground between flights,
+  so a late arrival pushes back that aircraft's next departure. The schedule shows such a knock-on delay only
+  once the late aircraft has taken off.
+- Partner airline: NordicLink (`NL` flights) has free seats on its own routes, shown as `partner_options` in
+  searches. You have a daily partner allowance (see `get_status`); every passenger you put on a partner flight
+  uses one seat of it for the rest of the day.
 - `find_disrupted_bookings` and `search_itineraries` work on the current schedule. They do not apply notices
   about things that will happen later; reading the alerts and acting on them is your job.
 - Alerts are accurate: a notice says exactly what will happen.

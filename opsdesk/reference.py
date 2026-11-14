@@ -49,11 +49,144 @@ def doomed_flights(call: Call) -> set[str]:
     return out
 
 
+TURNAROUND, MCT = 40, 35
+
+
+def projection(call: Call):
+    """Knock-on delays not yet in the schedule: replay each aircraft's rotation with the 40-minute
+    turnaround rule (stated in the instructions) and return extra minutes per flight."""
+    hub = "HEL"
+    rows = call("list_flights", {"origin": hub, "after": "00:00", "before": "+1 23:59"})["flights"]
+    spokes = sorted({f["to"] for f in rows})
+    for s_ in spokes:
+        rows += call("list_flights", {"origin": s_, "after": "00:00", "before": "+1 23:59"})["flights"]
+    tails: dict[str, list] = {}
+    for f in rows:
+        if f.get("carrier") == "AU":
+            tails.setdefault(f["aircraft_reg"], []).append(f)
+    extra: dict[str, int] = {}
+    for legs in tails.values():
+        legs.sort(key=lambda f: t2m(f.get("scheduled_dep", f["dep"])))
+        prev_arr = None
+        for f in legs:
+            if f["status"] == "cancelled":
+                prev_arr = None
+                continue
+            dep, arr = t2m(f["dep"]), t2m(f["arr"])
+            if f["status"] in ("scheduled", "delayed") and prev_arr is not None and prev_arr + TURNAROUND > dep:
+                d = prev_arr + TURNAROUND - dep
+                extra[f["flight"]] = d
+                arr += d
+            prev_arr = arr
+    legs_by_id = {f["flight"]: f for f in rows}
+    return extra, legs_by_id
+
+
+def projected_arr(o: dict, legs: dict[str, dict], extra: dict[str, int]) -> int | None:
+    """Arrival of an itinerary under projected knock-on delays, or None if a connection would break."""
+    prev = None
+    for fid in o["flights"]:
+        f = legs.get(fid)
+        if f is None:
+            return t2m(o["arr"]) if prev is None else None
+        dep, arr = t2m(f["dep"]) + extra.get(fid, 0), t2m(f["arr"]) + extra.get(fid, 0)
+        if prev is not None and dep < prev + MCT:
+            return None
+        prev = arr
+    return prev
+
+
+PARTNER_THRESHOLD = 0.6   # value gained per partner seat needed before spending the scarce allowance
+BUMP = True
+
+
+def value(b: dict, arr: int | None) -> float:
+    """The published scoring rule for one booking arriving at `arr` (minutes)."""
+    if arr is None:
+        return 0.0
+    if "must_arrive_by" in b and arr > t2m(b["must_arrive_by"]):
+        return 0.0
+    late = max(0, arr - t2m(b["originally_due"]))
+    return TIER[b["tier"]] * b["pax"] * max(0.0, 1 - late / 1440)
+
+
+def _ok(r: dict) -> bool:
+    return bool(r.get("results", [{}])[0].get("ok"))
+
+
+def try_bump(call: Call, p: str, b: dict, doomed: set[str], moved: set[str], have: float) -> bool:
+    """Free seats for an urgent group by moving healthy, flexible groups to their next-best option,
+    but only when the urgent group gains more than the moved groups lose."""
+    res = call("search_itineraries", {"pnrs": [p], "include_full": True})["results"][0]
+    opts = [o for o in res.get("options", []) if not any(f in doomed for f in o["flights"])]
+    opts.sort(key=lambda o: -value(b, t2m(o["arr"])))
+    for o in opts[:3]:
+        gain = value(b, t2m(o["arr"])) - have
+        if gain <= 0.5:
+            return False
+        plan, cost = [], 0.0
+        for fid in o["flights"]:
+            fl = call("get_flight", {"flight": fid})
+            deficit = b["pax"] - (fl["seats_free"] if isinstance(fl["seats_free"], int) else 999)
+            if deficit <= 0:
+                continue
+            cands = []
+            for r in fl["bookings"]:
+                q = r["pnr"]
+                if q == p or q in [x[0] for x in plan]:
+                    continue
+                bq = call("get_booking", {"pnr": q})
+                if bq.get("location") in (None, "airborne") or bq.get("problems") or "must_arrive_by" in bq \
+                        or bq["tier"] in ("medical", "umnr"):
+                    continue
+                cur = value(bq, t2m(bq["itinerary"][-1]["arr"]))
+                alt = call("search_itineraries", {"pnrs": [q]})["results"][0].get("options", [])
+                alt = [x for x in alt if not any(f in doomed or f in o["flights"] for f in x["flights"])]
+                if not alt:
+                    continue
+                best = max(alt, key=lambda x: value(bq, t2m(x["arr"])))
+                cands.append((cur - value(bq, t2m(best["arr"])), q, best["flights"], bq["pax"]))
+            cands.sort()
+            freed = 0
+            for c, q, fl2, pax in cands:
+                if freed >= deficit:
+                    break
+                plan.append((q, fl2))
+                cost += c
+                freed += pax
+            if freed < deficit:
+                plan = None
+                break
+        if plan is None or cost >= gain:
+            continue
+        for q, fl2 in plan:
+            if _ok(call("rebook", {"changes": [{"pnr": q, "flights": fl2}]})):
+                moved.add(q)
+        if _ok(call("rebook", {"changes": [{"pnr": p, "flights": o["flights"]}]})):
+            moved.add(p)
+            return True
+    return False
+
+
 def plan_tick(call: Call, moved: set[str]):
     doomed = doomed_flights(call)
+    extra, legs = projection(call)
+
+    def arr_of(o):
+        return projected_arr(o, legs, extra)
+
+    def itin_arr(b):
+        rem = [s["flight"] for s in b["itinerary"] if not s["flown"]]
+        if not rem:
+            return None
+        return arr_of({"flights": rem, "arr": b["itinerary"][-1]["arr"]})
+
     info: dict[str, dict] = {}
     for r in call("find_disrupted_bookings", {})["bookings"]:
         info[r["pnr"]] = {"broken": True}
+    for fid in extra:
+        for r in call("get_flight", {"flight": fid})["bookings"]:
+            info.setdefault(r["pnr"], {"broken": False})
     for fid in doomed:
         try:
             for r in call("get_flight", {"flight": fid})["bookings"]:
@@ -77,6 +210,7 @@ def plan_tick(call: Call, moved: set[str]):
 
     order = sorted(info, key=prio)
     deferred: set[str] = set()
+    urgent_left: list[str] = []
     i = 0
     while i < len(order):
         p = order[i]
@@ -85,28 +219,44 @@ def plan_tick(call: Call, moved: set[str]):
         if b.get("arrived") or b.get("location") == "airborne":
             continue
         rem = [s["flight"] for s in b["itinerary"] if not s["flown"]]
-        broken = bool(b.get("problems")) or any(f in doomed for f in rem)
-        res = call("search_itineraries", {"pnrs": [p]})["results"][0]
-        opts = [o for o in res.get("options", []) if not any(f in doomed for f in o["flights"])]
-        if not opts:
+        broken = bool(b.get("problems")) or any(f in doomed for f in rem) or itin_arr(b) is None
+        cur_val = 0.0 if broken else value(b, itin_arr(b))
+        res = call("search_itineraries", {"pnrs": [p]})
+        left = res["partner_seats_left"]
+        res = res["results"][0]
+        au = [o for o in res.get("options", []) if not any(f in doomed for f in o["flights"]) and arr_of(o)]
+        nl = [o for o in res.get("partner_options", []) if not any(f in doomed for f in o["flights"]) and arr_of(o)]
+        best_au = max(au, key=lambda o: (value(b, arr_of(o)), -arr_of(o))) if au else None
+        best_nl = max(nl, key=lambda o: (value(b, arr_of(o)), -arr_of(o))) if nl else None
+        v_au = value(b, arr_of(best_au)) if best_au else 0.0
+        v_nl = value(b, arr_of(best_nl)) if best_nl else 0.0
+        if "must_arrive_by" in b and v_au == 0 and v_nl == 0 and p not in deferred:
+            deferred.add(p)          # deadline already lost: still get them home, after everyone else
+            order.append(p)
             continue
-        if "must_arrive_by" in b:
-            ok = [o for o in opts if t2m(o["arr"]) <= t2m(b["must_arrive_by"])]
-            if not ok and p not in deferred:
-                # the deadline can no longer be met: still get them home, but after everyone it can help
-                deferred.add(p)
-                order.append(p)
+        choice, v = best_au, v_au
+        if best_nl and b["pax"] <= left and (v_nl - v_au) / b["pax"] >= PARTNER_THRESHOLD:
+            choice, v = best_nl, v_nl
+        if choice is None:
+            if broken and ("must_arrive_by" in b or b["tier"] in ("medical", "umnr")):
+                urgent_left.append(p)
+            continue
+        if not broken and v <= cur_val + 0.05 * TIER[b["tier"]] * b["pax"]:
+            continue
+        if choice["flights"] != rem and _ok(call("rebook", {"changes": [{"pnr": p, "flights": choice["flights"]}]})):
+            moved.add(p)
+        full = TIER[b["tier"]] * b["pax"]
+        if ("must_arrive_by" in b or b["tier"] in ("medical", "umnr")) and v < 0.5 * full:
+            urgent_left.append(p)
+    if BUMP:
+        for p in urgent_left:
+            b = call("get_booking", {"pnr": p})
+            if b.get("arrived") or b.get("location") == "airborne":
                 continue
-            opts = ok or opts
-        best = opts[0]
-        if not broken:
-            cur_arr = next((t2m(s["arr"]) for s in reversed(b["itinerary"])), None)
-            if cur_arr is None or t2m(best["arr"]) > cur_arr - 60:
-                continue
-        if best["flights"] != rem:
-            r = call("rebook", {"changes": [{"pnr": p, "flights": best["flights"]}]})
-            if r.get("results", [{}])[0].get("ok"):
-                moved.add(p)
+            rem = [s["flight"] for s in b["itinerary"] if not s["flown"]]
+            have = 0.0 if (b.get("problems") or any(f in doomed for f in rem) or itin_arr(b) is None) \
+                else value(b, itin_arr(b))
+            try_bump(call, p, b, doomed, moved, have)
 
 
 def run_reference(call: Call):
