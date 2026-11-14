@@ -7,11 +7,11 @@
 | Criterion | Inspectable proof | Current limit |
 | --- | --- | --- |
 | Gap, 30% | [Evidence ledger](eval/LEDGER.md), [versioned experiments](results/experiments/) | Current-world model/reference gap is unmeasured. Old-world scores are calibration only. |
-| Meaningful difficulty, 30% | [Agent instructions](opsdesk/instruction.md), [stale-plan regressions](tests/test_plan_retirement.py), [audit protocol and published failures](eval/AUDIT_RESULTS.md) | Synthetic airline simulation, no claim of airline operational validation. |
+| Meaningful difficulty, 30% | [Agent instructions](opsdesk/instruction.md), [real model error analysis](eval/ERROR_ANALYSIS.md), [stale-plan regressions](tests/test_plan_retirement.py), [audit protocol and published failures](eval/AUDIT_RESULTS.md) | Synthetic airline simulation, no claim of airline operational validation. |
 | Reward integrity, 25% | [v3 exploit results](results/standard/exploits.json), [genuine Harbor oracle/nop logs](results/harbor-runs/) | Reference is a heuristic, not a proved upper bound. Raw scores remain visible outside [0,1]. |
 | Craft, 15% | [One-command experiments](#versioned-experiments), [results site](https://ops-desk-bench.vercel.app), [video and pitch script](docs/demo-and-pitch.md) | Recording/public video and final competition submission remain pending. |
 
-**Evidence status:** Harbor STANDARD seed1 oracle = 1.000, nop = 0.000, zero exceptions. Flash3.8 and Argon4 STANDARD OpenCode runs are active. A complete model-play log is still required. An interrupted run is not a score. See the ledger for runner and world provenance.
+**Evidence status:** Harbor STANDARD seed1 oracle = 1.000, nop = 0.000, zero exceptions. [GPT-4.1-mini STANDARD OpenCode run](results/harbor-runs/v31-opencode-router-gpt41mini-seed1-run1/) completed with raw/reward0.000 and zero Harbor exceptions. It stopped at07:00 before rebooking. Flash/Argon failed with HTTP402 before play and are infrastructure failures. Stronger-family/repeated evidence remains pending. An interrupted run is not a score. See the ledger for runner and world provenance.
 
 Ops Desk is a deterministic, long-horizon reinforcement-learning environment. The agent staffs the
 disruption desk of a fictional regional airline (Aurora Regional, hub Helsinki) from 06:00 to 23:00.
@@ -51,7 +51,7 @@ Current v3 in-process scripted scores, standard seeds 1 / 2 / 3:
 | Actions | `rebook` (batched, validated), `advance_clock` (30 or 60 min), `end_shift`, plus read tools |
 | Episode | 06:00 to 23:00 (17 to 34 clock steps), then tomorrow's flights run without the desk |
 | Scale (standard) | 7 spokes, ~84 flights, ~1,100 bookings, ~2,400 passengers, ~170 bookings disrupted |
-| Seeds | Any integer. The disruption script has a fixed shape; targets, timing and demand depend on the seed |
+| Seeds | Submission seeds1–3. Other seeds can fail generation, including seed12 in the frozen audit. Targets, timing and demand depend on the seed |
 
 Rules the agent is told up front: 35-minute connections at HEL, a 20-minute rebooking cut-off, groups
 travel together, oversold flights deny boarding to the latest-changed bookings first, alerts are
@@ -165,7 +165,7 @@ and the agent runner needs `requests`.
 
 ### Versioned experiments
 
-Install the dependencies once, then use one command per experiment. Requires local Docker for Harbor.
+Install the dependencies once, then use one command per experiment. Requires local Docker Engine, Compose v2 and Buildx for Harbor.
 
 ```bash
 uv venv --python 3.11 .venv
@@ -179,11 +179,20 @@ uv tool install --python 3.13 'harbor==0.26.0'
 .venv/bin/python -m opsdesk.experiment --suite harbor --agent opencode --model google/gemini-3.8-flash --seeds 1 2 3 --runs 3
 ```
 
+The existing Hostinger Router is also supported through the committed native provider configuration. With its existing credential already in `HOSTINGER_AI_ROUTER_API_KEY`:
+
+```bash
+.venv/bin/python -m opsdesk.experiment --suite harbor --agent opencode --model hostinger/gpt-5 --opencode-config eval/providers/hostinger-router.json --api-key-name HOSTINGER_AI_ROUTER_API_KEY --seeds 1 2 3 --runs 3
+# Substitute hostinger/claude-fable-5.2 for the second model family.
+```
+
+The provider JSON contains an environment reference, never a key. Context/output limits are harness configuration, not measured provider limits. Google inference on the existing event credential currently returns402, so model-list availability must not be mistaken for funded inference.
+
 Each command creates a new directory under `results/experiments/`, records source hashes, inputs, runner and times, and refuses to overwrite an existing name. The Harbor suite generates normal tasks and a transient private grader token in memory, then invokes the real Harbor executable. It never emulates OpenCode with a custom runner.
 
 The new development/final audit separates entire disruption families. [The protocol](eval/PROTOCOL.md) states the prior builder exposure and why this is not yet unseen-family model evidence. Repeated deterministic reference seeds do not count as repeated stochastic model trials. Assess multiple provider/model families when access permits; the judges' model list is undisclosed.
 
-For direct `harbor run` commands below, set a fresh `OPSDESK_GRADER_TOKEN` in your shell privately for that run. The wrapper above handles this automatically. Generated tasks contain an environment placeholder, not a fixed token. The verifier uses a private Authorization header. Agent containers receive neither this credential nor simulator/reference source. No `--dev-ca` image is included in submission tasks.
+For direct `harbor run` commands below, set a fresh `OPSDESK_GRADER_TOKEN` in your shell privately for that run. The wrapper above handles this automatically. Generated tasks contain an environment placeholder, not a fixed token. The verifier uses a private Authorization header. Harbor0.26 routes the main and MCP services through a shared network namespace; the MCP endpoint uses loopback. During agent execution, an explicit host allowlist limits external access to inference/metadata hosts. Agent containers receive neither the grading credential nor simulator/reference filesystem source. [Phase-scoped evidence and its limits](results/harbor-runs/network-proof-loopback/README.md) show GitHub/raw blocked, Router/MCP reachable and the reference still scoring1.000. This is a bounded check, not exhaustive sandbox security. No `--dev-ca` image is included in submission tasks.
 
 ### With Harbor (the judges' harness)
 

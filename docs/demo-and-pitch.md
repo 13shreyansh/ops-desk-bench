@@ -8,13 +8,13 @@ Do not record an unmeasured model-gap claim. Replace the pending-model sentence 
 
 **0:42–1:04, reward.** Show recovery bars and the value formula. "The script uses the same public tools as the agent. Doing nothing is zero; matching the reference is one. We preserve the raw score when it goes below zero or above one, so a weak reference cannot hide behind the required clipped reward."
 
-**1:04–1:28, evidence.** Open actual Harbor oracle/nop reward files, then the current model evidence state. "The real Harbor pipeline scores the reference one and nop zero. A complete current-world OpenCode model run is pending. Earlier model numbers came from a world with two fixed bugs and are labelled calibration. We do not have an established frontier gap yet."
+**1:04–1:28, evidence.** Open actual Harbor oracle/nop reward files, then the current model evidence state. "The real Harbor pipeline scores the reference one and nop zero. One current-world OpenCode/Harbor run completed. GPT-4.1-mini scored zero after reading options and stopping at07:00 before rebooking. Stronger-family runs remain pending. Earlier model numbers came from a world with two fixed bugs and are labelled calibration. We do not have an established frontier gap yet."
 
 **1:28–1:50, reproduction and limit.** Show one-command experiment and family audit. "Every experiment records its source hashes and inputs. We publish exploit results, nuisance failures and the limits of the family split. Ops Desk tests whether an agent keeps repairing a changing operation, with an inspectable reward and honest evidence."
 
 # Combined solo peer pitch, 30 seconds
 
-"Ops Desk is my AfterQuery entry. An agent runs a fictional airline through a day of disruptions, using Harbor and MCP. It must notice when its earlier bookings become stale and release their dependent seats. Passenger arrivals determine reward. The reference and nop have completed genuine Harbor validation; the ledger states exactly which model evidence is complete. The demo and public MIT repo expose the runs, failures and one-command reproduction."
+"Ops Desk is my AfterQuery entry. An agent runs a fictional airline through a day of disruptions, using Harbor and MCP. It must notice when its earlier bookings become stale and release their dependent seats. Passenger arrivals determine reward. The reference and nop passed Harbor validation. One GPT-4.1-mini playthrough completed with zero reward after stopping before its plan; stronger-model evidence is still pending. The demo and public MIT repo expose the runs, failures and one-command reproduction."
 
 # Five-minute project pitch
 

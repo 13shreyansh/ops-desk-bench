@@ -1,0 +1,1 @@
+Infrastructure failure before model play. Gemini returned HTTP402 RESOURCE_EXHAUSTED, prepayment credits depleted. Harbor fallback reward0 is not a model score or evidence of difficulty. No purchase or billing change was attempted.

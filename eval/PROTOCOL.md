@@ -19,3 +19,11 @@ Acceptance tests must show an upstream cancellation leaving dependent seats occu
 ## Runner amendment before v2 audit
 
 v1 encountered a generator failure at final seed12 and aborted without writing its in-memory earlier rows. Preserve that failed manifest. v2 changes only evidence recording so generator failures become explicit failed trials and remaining frozen seeds still run. Seeds, family membership, simulator and reference remain fixed. Final seed12 is not silently replaced by an easier seed. Its failure counts against audit coverage.
+
+## v3 audit after independent diagnostic review
+
+The independent reviewer reproduced a missed dynamic knock-on invalidation. v3.1.2 records those invalidations and adds a regression. It also diagnoses early harness termination as stopped-early, including the completed gpt-4.1-mini trajectory. No reward, policy, demand, seed or family change. Re-run the same frozen family audit as v3 and preserve v1/v2 evidence. Tighten Harbor agent-phase egress to explicit model/metadata/MCP hosts; setup and verifier remain separate phases. Existing public-internet model logs remain accurately labelled as pre-hardening evidence. Test the new task through real Harbor before claiming network isolation.
+
+## Manifest correction for final v4 evidence
+
+v3.1.3 adds explicit profile_seeds to the manifest after the independent reviewer found the generic seeds field omitted final inputs. No test input or policy changes. Preserve v3 alongside v4. The final record is v4 with development1/2/3 and final11/12/13, including the same generator failure.

@@ -1,0 +1,3494 @@
+[
+  {
+    "policy": "reference",
+    "nuisance": null,
+    "seed": 1,
+    "size": "standard",
+    "profile": "all",
+    "score": 1.0,
+    "value": 2187.66,
+    "v_nothing": 1992.36,
+    "v_reference": 2187.66,
+    "value_at_stake": 348.64,
+    "end_reason": "agent",
+    "ended_at": "23:00",
+    "tool_calls": 18087,
+    "tool_errors": 40,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [
+      {
+        "at": 600,
+        "pnr": "WMEZY5",
+        "event": "OPS-02",
+        "cause": "delay",
+        "invalid_flights": [
+          "AU157"
+        ],
+        "itinerary": [
+          "AU157",
+          "AU108"
+        ],
+        "dependent_flights": [
+          "AU108"
+        ],
+        "problem": "misconnect onto AU108 (needs 35 min, has -50)",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "3AS9W7",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "8BJJGA",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "HKU6JW",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "HSKEAV",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 840,
+        "pnr": "GJJUK5",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU159"
+        ],
+        "itinerary": [
+          "AU159"
+        ],
+        "dependent_flights": [],
+        "problem": "AU159 cancelled",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "3AS9W7",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "762AFS",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "8BJJGA",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": false
+      },
+      {
+        "at": 960,
+        "pnr": "A82UXT",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "EZH2E4",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "HETSQK",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "HKU6JW",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "HSKEAV",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "J93ED2",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": false
+      },
+      {
+        "at": 960,
+        "pnr": "T54V27",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "YZKQ7U",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": false
+      },
+      {
+        "at": 1020,
+        "pnr": "29CLX3",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU206"
+        ],
+        "itinerary": [
+          "AU206",
+          "AU268"
+        ],
+        "dependent_flights": [
+          "AU268"
+        ],
+        "problem": "AU206 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "333NZH",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU206"
+        ],
+        "itinerary": [
+          "AU206",
+          "AU264"
+        ],
+        "dependent_flights": [
+          "AU264"
+        ],
+        "problem": "AU206 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "AZHKMY",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU206"
+        ],
+        "itinerary": [
+          "AU206",
+          "AU114"
+        ],
+        "dependent_flights": [
+          "AU114"
+        ],
+        "problem": "AU206 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "J8T7V6",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU206"
+        ],
+        "itinerary": [
+          "AU206",
+          "AU900"
+        ],
+        "dependent_flights": [
+          "AU900"
+        ],
+        "problem": "AU206 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "MBZP7Y",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU206"
+        ],
+        "itinerary": [
+          "AU206",
+          "AU114"
+        ],
+        "dependent_flights": [
+          "AU114"
+        ],
+        "problem": "AU206 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "RLCY78",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU206"
+        ],
+        "itinerary": [
+          "AU206",
+          "AU900"
+        ],
+        "dependent_flights": [
+          "AU900"
+        ],
+        "problem": "AU206 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "5FXZJZ",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "AR7E2J",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "FLP3A3",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "J8T7V6",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU208",
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "LUTSTE",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "RLCY78",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU208",
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      }
+    ],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 24,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 15,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 8,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 8,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 13,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 13,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 8,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 1,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 19,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 13,
+        "recovered": 1.0
+      }
+    ]
+  },
+  {
+    "policy": "nothing",
+    "nuisance": null,
+    "seed": 1,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.0,
+    "value": 1992.36,
+    "v_nothing": 1992.36,
+    "v_reference": 2187.66,
+    "value_at_stake": 348.64,
+    "end_reason": "agent",
+    "ended_at": "06:00",
+    "tool_calls": 1,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 13,
+        "examples": [
+          "OPS-01",
+          "OPS-02",
+          "OPS-03",
+          "OPS-04",
+          "OPS-05",
+          "OPS-06",
+          "OPS-07",
+          "OPS-08"
+        ],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      }
+    ]
+  },
+  {
+    "policy": "stop_early",
+    "nuisance": null,
+    "seed": 1,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.0787,
+    "value": 2007.72,
+    "v_nothing": 1992.36,
+    "v_reference": 2187.66,
+    "value_at_stake": 348.64,
+    "end_reason": "agent",
+    "ended_at": "09:00",
+    "tool_calls": 1207,
+    "tool_errors": 8,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 5,
+        "examples": [
+          "6WC8H2",
+          "AD29JU",
+          "B5J3TJ",
+          "NV2SR2",
+          "NYCNV5"
+        ],
+        "value_lost": 2.33
+      },
+      "priority_inversion": {
+        "count": 1,
+        "examples": [
+          "8BJJGA"
+        ],
+        "value_lost": 2.35
+      },
+      "harmful_churn": {
+        "count": 3,
+        "examples": [
+          "6WC8H2",
+          "NV2SR2",
+          "NYCNV5"
+        ],
+        "value_lost": 1.23
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 12,
+        "examples": [
+          "OPS-02",
+          "OPS-03",
+          "OPS-04",
+          "OPS-05",
+          "OPS-06",
+          "OPS-07",
+          "OPS-08",
+          "OPS-09"
+        ],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 8,
+        "examples": [
+          "8BJJGA",
+          "B5J3TJ",
+          "GFU35L",
+          "HKU6JW",
+          "HPLGBV",
+          "HSKEAV",
+          "NV2SR2",
+          "UXK34L"
+        ],
+        "value_lost": 7.53
+      }
+    },
+    "stale_plans": [
+      {
+        "at": 600,
+        "pnr": "WMEZY5",
+        "event": "OPS-02",
+        "cause": "delay",
+        "invalid_flights": [
+          "AU157"
+        ],
+        "itinerary": [
+          "AU157",
+          "AU108"
+        ],
+        "dependent_flights": [
+          "AU108"
+        ],
+        "problem": "misconnect onto AU108 (needs 35 min, has -50)",
+        "retired": false
+      },
+      {
+        "at": 780,
+        "pnr": "3AS9W7",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": false
+      },
+      {
+        "at": 780,
+        "pnr": "8BJJGA",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": false
+      },
+      {
+        "at": 780,
+        "pnr": "HKU6JW",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": false
+      },
+      {
+        "at": 780,
+        "pnr": "HSKEAV",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": false
+      },
+      {
+        "at": 840,
+        "pnr": "B5J3TJ",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU160"
+        ],
+        "itinerary": [
+          "AU160",
+          "AU119"
+        ],
+        "dependent_flights": [
+          "AU119"
+        ],
+        "problem": "AU160 cancelled",
+        "retired": false
+      },
+      {
+        "at": 840,
+        "pnr": "GBHYYA",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU160"
+        ],
+        "itinerary": [
+          "AU160",
+          "AU119"
+        ],
+        "dependent_flights": [
+          "AU119"
+        ],
+        "problem": "AU160 cancelled",
+        "retired": false
+      },
+      {
+        "at": 840,
+        "pnr": "GFU35L",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU160"
+        ],
+        "itinerary": [
+          "AU160",
+          "AU114"
+        ],
+        "dependent_flights": [
+          "AU114"
+        ],
+        "problem": "AU160 cancelled",
+        "retired": false
+      },
+      {
+        "at": 840,
+        "pnr": "NV2SR2",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU160"
+        ],
+        "itinerary": [
+          "AU160",
+          "AU114"
+        ],
+        "dependent_flights": [
+          "AU114"
+        ],
+        "problem": "AU160 cancelled",
+        "retired": false
+      },
+      {
+        "at": 840,
+        "pnr": "UXK34L",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU160"
+        ],
+        "itinerary": [
+          "AU160",
+          "AU119"
+        ],
+        "dependent_flights": [
+          "AU119"
+        ],
+        "problem": "AU160 cancelled",
+        "retired": false
+      },
+      {
+        "at": 840,
+        "pnr": "VZ3R8R",
+        "event": "OPS-08",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU160"
+        ],
+        "itinerary": [
+          "AU160",
+          "AU119"
+        ],
+        "dependent_flights": [
+          "AU119"
+        ],
+        "problem": "AU160 cancelled",
+        "retired": false
+      },
+      {
+        "at": 960,
+        "pnr": "HPLGBV",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU111",
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": false
+      },
+      {
+        "at": 1020,
+        "pnr": "QWBAJK",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU207"
+        ],
+        "itinerary": [
+          "AU111",
+          "AU207"
+        ],
+        "dependent_flights": [],
+        "problem": "AU207 cancelled",
+        "retired": false
+      }
+    ],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 24,
+        "recovered": 0.696
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      }
+    ]
+  },
+  {
+    "policy": "naive",
+    "nuisance": null,
+    "seed": 1,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.5767,
+    "value": 2104.98,
+    "v_nothing": 1992.36,
+    "v_reference": 2187.66,
+    "value_at_stake": 348.64,
+    "end_reason": "agent",
+    "ended_at": "23:00",
+    "tool_calls": 279,
+    "tool_errors": 48,
+    "failure_modes": {
+      "never_handled": {
+        "count": 5,
+        "examples": [
+          "75BAH8",
+          "PAREKZ",
+          "PEB2PA",
+          "SA8EXR",
+          "XD68J4"
+        ],
+        "value_lost": 9.46
+      },
+      "cascade_blind": {
+        "count": 2,
+        "examples": [
+          "HKU6JW",
+          "N3345U"
+        ],
+        "value_lost": 2.15
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 12,
+        "examples": [
+          "8RSJY2",
+          "A82UXT",
+          "G3NHGZ",
+          "GBMQ4D",
+          "GFU35L",
+          "H34Z43",
+          "HKU6JW",
+          "KU9L8X"
+        ],
+        "value_lost": 15.23
+      },
+      "worse_choice": {
+        "count": 2,
+        "examples": [
+          "8BJJGA",
+          "A82UXT"
+        ],
+        "value_lost": 2.38
+      },
+      "priority_inversion": {
+        "count": 13,
+        "examples": [
+          "8BJJGA",
+          "8RSJY2",
+          "AJWPZG",
+          "AQUE5T",
+          "EL8S2H",
+          "FPBE73",
+          "GBMQ4D",
+          "HJKMZ6"
+        ],
+        "value_lost": 31.86
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 1,
+        "examples": [
+          "N3345U"
+        ],
+        "value_lost": 1.33
+      }
+    },
+    "stale_plans": [
+      {
+        "at": 600,
+        "pnr": "AJWPZG",
+        "event": "OPS-02",
+        "cause": "delay",
+        "invalid_flights": [
+          "AU157"
+        ],
+        "itinerary": [
+          "AU157",
+          "AU108"
+        ],
+        "dependent_flights": [
+          "AU108"
+        ],
+        "problem": "misconnect onto AU108 (needs 35 min, has -50)",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "3AS9W7",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "8BJJGA",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 780,
+        "pnr": "D6X7EK",
+        "event": "OPS-06",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU254"
+        ],
+        "itinerary": [
+          "AU254"
+        ],
+        "dependent_flights": [],
+        "problem": "AU254 cancelled",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "2PUBQA",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "D6X7EK",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "EZH2E4",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "FPBE73",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "GQP22W",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "HETSQK",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "QQ8WBM",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 960,
+        "pnr": "T54V27",
+        "event": "OPS-10",
+        "cause": "downgauge",
+        "invalid_flights": [
+          "AU259"
+        ],
+        "itinerary": [
+          "AU259"
+        ],
+        "dependent_flights": [],
+        "problem": "will be denied boarding on oversold AU259",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "5FXZJZ",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "6QQR6G",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "J3YLWQ",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "LP94K9",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "N3345U",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "QTPNX2",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "SGN5H3",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "WW58LK",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "YF2FUV",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU168"
+        ],
+        "itinerary": [
+          "AU168"
+        ],
+        "dependent_flights": [],
+        "problem": "AU168 cancelled",
+        "retired": true
+      }
+    ],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 24,
+        "recovered": 0.657
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 16,
+        "recovered": -0.533
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 14,
+        "recovered": 0.813
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 14,
+        "recovered": 0.813
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 13,
+        "recovered": 0.526
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 13,
+        "recovered": 0.526
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 33,
+        "recovered": 0.407
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 26,
+        "recovered": 0.695
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 10,
+        "recovered": 0.838
+      }
+    ]
+  },
+  {
+    "policy": "reference",
+    "nuisance": null,
+    "seed": 2,
+    "size": "standard",
+    "profile": "all",
+    "score": 1.0,
+    "value": 2186.37,
+    "v_nothing": 2024.19,
+    "v_reference": 2186.37,
+    "value_at_stake": 278.81,
+    "end_reason": "agent",
+    "ended_at": "23:00",
+    "tool_calls": 13754,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 29,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 4,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 4,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 14,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 10,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 8,
+        "recovered": 1.0
+      }
+    ]
+  },
+  {
+    "policy": "nothing",
+    "nuisance": null,
+    "seed": 2,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.0,
+    "value": 2024.19,
+    "v_nothing": 2024.19,
+    "v_reference": 2186.37,
+    "value_at_stake": 278.81,
+    "end_reason": "agent",
+    "ended_at": "06:00",
+    "tool_calls": 1,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 13,
+        "examples": [
+          "OPS-01",
+          "OPS-02",
+          "OPS-03",
+          "OPS-04",
+          "OPS-05",
+          "OPS-06",
+          "OPS-07",
+          "OPS-08"
+        ],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      }
+    ]
+  },
+  {
+    "policy": "stop_early",
+    "nuisance": null,
+    "seed": 2,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.3084,
+    "value": 2074.2,
+    "v_nothing": 2024.19,
+    "v_reference": 2186.37,
+    "value_at_stake": 278.81,
+    "end_reason": "agent",
+    "ended_at": "09:00",
+    "tool_calls": 1943,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 12,
+        "examples": [
+          "OPS-02",
+          "OPS-03",
+          "OPS-04",
+          "OPS-05",
+          "OPS-06",
+          "OPS-07",
+          "OPS-08",
+          "OPS-09"
+        ],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 29,
+        "recovered": 0.927
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      }
+    ]
+  },
+  {
+    "policy": "naive",
+    "nuisance": null,
+    "seed": 2,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.7335,
+    "value": 2143.14,
+    "v_nothing": 2024.19,
+    "v_reference": 2186.37,
+    "value_at_stake": 278.81,
+    "end_reason": "agent",
+    "ended_at": "23:00",
+    "tool_calls": 247,
+    "tool_errors": 70,
+    "failure_modes": {
+      "never_handled": {
+        "count": 2,
+        "examples": [
+          "TE9N9V",
+          "ZWAWRU"
+        ],
+        "value_lost": 3.18
+      },
+      "cascade_blind": {
+        "count": 2,
+        "examples": [
+          "PQJUNA",
+          "TMU2H7"
+        ],
+        "value_lost": 4.5
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 23,
+        "examples": [
+          "3A5R9D",
+          "8BUME4",
+          "9U5PX6",
+          "DEH38B",
+          "HYTKZD",
+          "MJAT88",
+          "MVFAXQ",
+          "MVRKF4"
+        ],
+        "value_lost": 34.98
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 4,
+        "examples": [
+          "MJAT88",
+          "PL9W64",
+          "QN4YE8",
+          "UZKX6X"
+        ],
+        "value_lost": 8.0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 2,
+        "examples": [
+          "PQJUNA",
+          "TMU2H7"
+        ],
+        "value_lost": 4.5
+      }
+    },
+    "stale_plans": [
+      {
+        "at": 1260,
+        "pnr": "8BUME4",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU114"
+        ],
+        "itinerary": [
+          "AU114"
+        ],
+        "dependent_flights": [],
+        "problem": "AU114 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "BNYFQF",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU114"
+        ],
+        "itinerary": [
+          "AU114"
+        ],
+        "dependent_flights": [],
+        "problem": "AU114 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "MVFAXQ",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU114"
+        ],
+        "itinerary": [
+          "AU114"
+        ],
+        "dependent_flights": [],
+        "problem": "AU114 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "PQJUNA",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU114"
+        ],
+        "itinerary": [
+          "AU114"
+        ],
+        "dependent_flights": [],
+        "problem": "AU114 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "TE4948",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU114"
+        ],
+        "itinerary": [
+          "AU114"
+        ],
+        "dependent_flights": [],
+        "problem": "AU114 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "TMU2H7",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU114"
+        ],
+        "itinerary": [
+          "AU114"
+        ],
+        "dependent_flights": [],
+        "problem": "AU114 cancelled",
+        "retired": false
+      }
+    ],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 29,
+        "recovered": 0.68
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 14,
+        "recovered": 0.385
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 14,
+        "recovered": 0.385
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 4,
+        "recovered": 0.35
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 4,
+        "recovered": 0.35
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 40,
+        "recovered": 0.819
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 10,
+        "recovered": 1.088
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 8,
+        "recovered": 0.817
+      }
+    ]
+  },
+  {
+    "policy": "reference",
+    "nuisance": null,
+    "seed": 3,
+    "size": "standard",
+    "profile": "all",
+    "score": 1.0,
+    "value": 2148.35,
+    "v_nothing": 1903.14,
+    "v_reference": 2148.35,
+    "value_at_stake": 374.36,
+    "end_reason": "agent",
+    "ended_at": "23:00",
+    "tool_calls": 20945,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [
+      {
+        "at": 1020,
+        "pnr": "5HYRXU",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "6XSZYJ",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "DH25DE",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "GU6NYZ",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "Q2EU6L",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "QWDK6N",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "ZG5HHJ",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      }
+    ],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 47,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 4,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 6,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 6,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 13,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 12,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 14,
+        "recovered": 1.0
+      }
+    ]
+  },
+  {
+    "policy": "nothing",
+    "nuisance": null,
+    "seed": 3,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.0,
+    "value": 1903.14,
+    "v_nothing": 1903.14,
+    "v_reference": 2148.35,
+    "value_at_stake": 374.36,
+    "end_reason": "agent",
+    "ended_at": "06:00",
+    "tool_calls": 1,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 13,
+        "examples": [
+          "OPS-01",
+          "OPS-02",
+          "OPS-03",
+          "OPS-04",
+          "OPS-05",
+          "OPS-06",
+          "OPS-07",
+          "OPS-08"
+        ],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      }
+    ]
+  },
+  {
+    "policy": "stop_early",
+    "nuisance": null,
+    "seed": 3,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.2909,
+    "value": 1974.47,
+    "v_nothing": 1903.14,
+    "v_reference": 2148.35,
+    "value_at_stake": 374.36,
+    "end_reason": "agent",
+    "ended_at": "09:00",
+    "tool_calls": 2794,
+    "tool_errors": 0,
+    "failure_modes": {
+      "never_handled": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "cascade_blind": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 12,
+        "examples": [
+          "OPS-02",
+          "OPS-03",
+          "OPS-04",
+          "OPS-05",
+          "OPS-06",
+          "OPS-07",
+          "OPS-08",
+          "OPS-09"
+        ],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      }
+    },
+    "stale_plans": [],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 47,
+        "recovered": 0.962
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      }
+    ]
+  },
+  {
+    "policy": "naive",
+    "nuisance": null,
+    "seed": 3,
+    "size": "standard",
+    "profile": "all",
+    "score": 0.5179,
+    "value": 2030.13,
+    "v_nothing": 1903.14,
+    "v_reference": 2148.35,
+    "value_at_stake": 374.36,
+    "end_reason": "agent",
+    "ended_at": "23:00",
+    "tool_calls": 271,
+    "tool_errors": 49,
+    "failure_modes": {
+      "never_handled": {
+        "count": 11,
+        "examples": [
+          "7VF7CG",
+          "ARTWMC",
+          "CEFPE8",
+          "D36TCS",
+          "DVGUHD",
+          "E47T9W",
+          "F2QXJV",
+          "N598JV"
+        ],
+        "value_lost": 20.28
+      },
+      "cascade_blind": {
+        "count": 7,
+        "examples": [
+          "5DRTR2",
+          "6CWTJ3",
+          "6Z4KQE",
+          "787WF9",
+          "7X7J3W",
+          "82LMV2",
+          "954BS4"
+        ],
+        "value_lost": 18.47
+      },
+      "ignored_notice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "procrastinated": {
+        "count": 11,
+        "examples": [
+          "7D7ZFY",
+          "98RGZE",
+          "DGD96W",
+          "EZCY3B",
+          "FJ28KV",
+          "LTERBJ",
+          "QPKQGL",
+          "RA94CM"
+        ],
+        "value_lost": 10.92
+      },
+      "worse_choice": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "priority_inversion": {
+        "count": 13,
+        "examples": [
+          "3TTXRG",
+          "4EBS9A",
+          "7VF7CG",
+          "CEFPE8",
+          "D36TCS",
+          "FHADUY",
+          "H67DAA",
+          "LJ9K2M"
+        ],
+        "value_lost": 31.85
+      },
+      "harmful_churn": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "denied_boarding": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stopped_early": {
+        "count": 0,
+        "examples": [],
+        "value_lost": 0
+      },
+      "stale_plan_retirement": {
+        "count": 7,
+        "examples": [
+          "5DRTR2",
+          "6CWTJ3",
+          "6Z4KQE",
+          "787WF9",
+          "7X7J3W",
+          "82LMV2",
+          "954BS4"
+        ],
+        "value_lost": 18.47
+      }
+    },
+    "stale_plans": [
+      {
+        "at": 1020,
+        "pnr": "9AA24S",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1020,
+        "pnr": "FKSJB2",
+        "event": "OPS-11",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU166"
+        ],
+        "itinerary": [
+          "AU166"
+        ],
+        "dependent_flights": [],
+        "problem": "AU166 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "36J6AE",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "5DRTR2",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "6CWTJ3",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "6Z4KQE",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "787WF9",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "7X7J3W",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "82LMV2",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "89GCZ3",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": true
+      },
+      {
+        "at": 1260,
+        "pnr": "954BS4",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      },
+      {
+        "at": 1260,
+        "pnr": "9XVLX8",
+        "event": "OPS-13",
+        "cause": "cancel",
+        "invalid_flights": [
+          "AU192"
+        ],
+        "itinerary": [
+          "AU192"
+        ],
+        "dependent_flights": [],
+        "problem": "AU192 cancelled",
+        "retired": false
+      }
+    ],
+    "coherence": [
+      {
+        "alert": "OPS-01",
+        "time": "07:00",
+        "kind": "cancel",
+        "bookings_hit": 47,
+        "recovered": 0.691
+      },
+      {
+        "alert": "OPS-02",
+        "time": "10:00",
+        "kind": "delay",
+        "bookings_hit": 4,
+        "recovered": 1.0
+      },
+      {
+        "alert": "OPS-03",
+        "time": "11:00",
+        "kind": "advisory",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-04",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 8,
+        "recovered": 0.804
+      },
+      {
+        "alert": "OPS-05",
+        "time": "12:00",
+        "kind": "delay",
+        "bookings_hit": 8,
+        "recovered": 0.804
+      },
+      {
+        "alert": "OPS-06",
+        "time": "13:00",
+        "kind": "cancel",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-07",
+        "time": "13:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-08",
+        "time": "14:00",
+        "kind": "cancel",
+        "bookings_hit": 63,
+        "recovered": 0.359
+      },
+      {
+        "alert": "OPS-09",
+        "time": "15:00",
+        "kind": "add_flight",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-10",
+        "time": "16:00",
+        "kind": "downgauge",
+        "bookings_hit": 3,
+        "recovered": 1.103
+      },
+      {
+        "alert": "OPS-11",
+        "time": "17:00",
+        "kind": "cancel",
+        "bookings_hit": 16,
+        "recovered": 0.876
+      },
+      {
+        "alert": "OPS-12",
+        "time": "18:00",
+        "kind": "delay",
+        "bookings_hit": 0,
+        "recovered": null
+      },
+      {
+        "alert": "OPS-13",
+        "time": "21:00",
+        "kind": "cancel",
+        "bookings_hit": 14,
+        "recovered": 0.0
+      }
+    ]
+  }
+]

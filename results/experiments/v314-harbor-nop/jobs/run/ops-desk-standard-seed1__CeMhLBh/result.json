@@ -1,0 +1,124 @@
+{
+    "schema_version": 1,
+    "id": "11138671-3543-4fa6-8400-db2b1a3317a5",
+    "task_name": "ops-desk-standard-seed1",
+    "trial_name": "ops-desk-standard-seed1__CeMhLBh",
+    "trial_uri": "file:///Users/shreyansh/Documents/ChatGPT/Junction/afterquery/results/experiments/v314-harbor-nop/jobs/run/ops-desk-standard-seed1__CeMhLBh",
+    "task_id": {
+        "path": "/Users/shreyansh/Documents/ChatGPT/Junction/afterquery/results/experiments/v314-harbor-nop/tasks/ops-desk-standard-seed1"
+    },
+    "source": null,
+    "task_checksum": "52e775f03d805cec9b6a1660367216b96f61ef6d06865477c163d2164c7b668e",
+    "config": {
+        "schema_version": 1,
+        "task": {
+            "path": "/Users/shreyansh/Documents/ChatGPT/Junction/afterquery/results/experiments/v314-harbor-nop/tasks/ops-desk-standard-seed1",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "ops-desk-standard-seed1__CeMhLBh",
+        "trials_dir": "/Users/shreyansh/Documents/ChatGPT/Junction/afterquery/results/experiments/v314-harbor-nop/jobs/run",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "nop",
+            "import_path": null,
+            "model_name": null,
+            "base_url": null,
+            "model_api_key_name": null,
+            "model_api_format": null,
+            "skip_model_parsing": false,
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {},
+            "mcp_servers": []
+        },
+        "user_agent": null,
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "stream": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "override_error_policy": {},
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "extra_instructions": [],
+        "job_id": "28712b2f-7b36-4d39-a8ce-5b63089bbe24",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "nop",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "model_usage": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "verifier_environment_mode": "shared",
+    "exception_info": null,
+    "started_at": "2026-11-14T16:30:35.482340Z",
+    "finished_at": "2026-11-14T16:31:00.719079Z",
+    "environment_setup": {
+        "started_at": "2026-11-14T16:30:35.507505Z",
+        "finished_at": "2026-11-14T16:30:44.756632Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-11-14T16:30:44.756744Z",
+        "finished_at": "2026-11-14T16:30:44.756814Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-11-14T16:30:44.756953Z",
+        "finished_at": "2026-11-14T16:30:46.937043Z"
+    },
+    "verifier": {
+        "started_at": "2026-11-14T16:30:47.177310Z",
+        "finished_at": "2026-11-14T16:30:50.224755Z"
+    },
+    "step_results": null,
+    "reward_valid": true
+}

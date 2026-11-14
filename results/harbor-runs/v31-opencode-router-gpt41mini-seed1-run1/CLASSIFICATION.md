@@ -1,0 +1,1 @@
+Completed genuine Harbor/OpenCode STANDARD seed1 model run, zero exceptions. The model read tools then voluntarily stopped before executing its announced plan. This is a scored early-stop trajectory, not a completed operational shift. Raw score and clipped reward0.000. Not a frontier-gap claim.

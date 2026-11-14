@@ -1,0 +1,40 @@
+timestamp=2026-11-14T16:21:20.667Z level=INFO run=05939234 message="creating instance" directory=/app
+timestamp=2026-11-14T16:21:20.668Z level=INFO run=05939234 message=fromDirectory directory=/app
+timestamp=2026-11-14T16:21:20.671Z level=INFO run=05939234 message=bootstrapping directory=/app
+timestamp=2026-11-14T16:21:20.674Z level=INFO run=05939234 message=loading path=/root/.config/opencode/config.json
+timestamp=2026-11-14T16:21:20.675Z level=INFO run=05939234 message=loading path=/root/.config/opencode/opencode.json
+timestamp=2026-11-14T16:21:20.680Z level=INFO run=05939234 message=loading path=/root/.config/opencode/opencode.jsonc
+timestamp=2026-11-14T16:21:20.781Z level=INFO run=05939234 message="all LSPs are disabled"
+timestamp=2026-11-14T16:21:20.781Z level=INFO run=05939234 message="all formatters are disabled"
+timestamp=2026-11-14T16:21:20.782Z level=INFO run=05939234 message=init
+timestamp=2026-11-14T16:21:20.954Z level=INFO run=05939234 message=created id=ses_e2522f845ffeERPirf5YZ5s3wd slug=cosmic-rocket version=1.19.5 projectID=global directory=/app path=app workspaceID=undefined parentID=undefined title="New session - 2026-11-14T16:21:20.954Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1794673280954 time.updated=1794673280954
+timestamp=2026-11-14T16:21:20.958Z level=INFO run=05939234 message="event connected"
+timestamp=2026-11-14T16:21:20.981Z level=INFO run=05939234 message=loop session.id=ses_e2522f845ffeERPirf5YZ5s3wd step=0
+timestamp=2026-11-14T16:21:21.477Z level=INFO run=05939234 message=stream providerID=google modelID=gemini-3.8-flash session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=true agent=title mode=primary
+timestamp=2026-11-14T16:21:21.481Z level=INFO run=05939234 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=google llm.model=gemini-3.8-flash
+timestamp=2026-11-14T16:21:21.494Z level=INFO run=05939234 message=initialized
+timestamp=2026-11-14T16:21:21.499Z level=INFO run=05939234 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:21:21.502Z level=INFO run=05939234 message="shell tool using shell" shell=/usr/bin/bash
+timestamp=2026-11-14T16:21:21.521Z level=INFO run=05939234 message=init count=1
+timestamp=2026-11-14T16:21:21.565Z level=INFO run=05939234 message="watcher backend" directory=/app platform=linux backend=inotify
+timestamp=2026-11-14T16:21:21.572Z level=INFO run=05939234 message="project copy refresh started" projectID=global
+timestamp=2026-11-14T16:21:21.573Z level=INFO run=05939234 message="project copy refresh done" projectID=global updated=[] removed=[]
+timestamp=2026-11-14T16:21:21.577Z level=INFO run=05939234 message="booting location services" directory=/app workspaceID=undefined
+timestamp=2026-11-14T16:21:21.698Z level=INFO run=05939234 message=process session.id=ses_e2522f845ffeERPirf5YZ5s3wd messageID=msg_1dadd09c3001aMG27qwBwJHfa0
+timestamp=2026-11-14T16:21:21.698Z level=INFO run=05939234 message=stream providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary
+timestamp=2026-11-14T16:21:21.701Z level=INFO run=05939234 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=google llm.model=gemini-4-argon
+timestamp=2026-11-14T16:21:21.794Z level=ERROR run=05939234 message="stream error" providerID=google modelID=gemini-3.8-flash session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=true agent=title mode=primary error.error="AI_APICallError: Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+timestamp=2026-11-14T16:21:21.913Z level=ERROR run=05939234 message="stream error" providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary error.error="AI_APICallError: Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+timestamp=2026-11-14T16:21:24.193Z level=INFO run=05939234 message=stream providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary
+timestamp=2026-11-14T16:21:24.194Z level=INFO run=05939234 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=google llm.model=gemini-4-argon
+timestamp=2026-11-14T16:21:24.713Z level=ERROR run=05939234 message="stream error" providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary error.error="AI_APICallError: Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+timestamp=2026-11-14T16:21:29.118Z level=INFO run=05939234 message=stream providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary
+timestamp=2026-11-14T16:21:29.120Z level=INFO run=05939234 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=google llm.model=gemini-4-argon
+timestamp=2026-11-14T16:21:29.306Z level=ERROR run=05939234 message="stream error" providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary error.error="AI_APICallError: Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+timestamp=2026-11-14T16:21:39.179Z level=INFO run=05939234 message=stream providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary
+timestamp=2026-11-14T16:21:39.180Z level=INFO run=05939234 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=google llm.model=gemini-4-argon
+timestamp=2026-11-14T16:21:39.364Z level=ERROR run=05939234 message="stream error" providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary error.error="AI_APICallError: Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+timestamp=2026-11-14T16:21:58.231Z level=INFO run=05939234 message=stream providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary
+timestamp=2026-11-14T16:21:58.233Z level=INFO run=05939234 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=google llm.model=gemini-4-argon
+timestamp=2026-11-14T16:21:58.454Z level=ERROR run=05939234 message="stream error" providerID=google modelID=gemini-4-argon session.id=ses_e2522f845ffeERPirf5YZ5s3wd small=false agent=build mode=primary error.error="AI_APICallError: Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+timestamp=2026-11-14T16:22:20.829Z level=INFO run=05939234 message=cleanup prune=7.days

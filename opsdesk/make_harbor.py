@@ -25,6 +25,8 @@ tags = ["mcp", "long-horizon", "dynamic", "airline-ops"]
 
 [agent]
 timeout_sec = {agent_timeout}
+network_mode = "allowlist"
+allowed_hosts = ["models.dev", "generativelanguage.googleapis.com", "router.hostinger.com", "api.openai.com", "api.anthropic.com"]
 
 [verifier]
 timeout_sec = 900.0
@@ -39,7 +41,7 @@ allow_internet = true
 [[environment.mcp_servers]]
 name = "opsdesk"
 transport = "streamable-http"
-url = "http://mcp-server:8000/mcp"
+url = "http://127.0.0.1:8000/mcp"
 """
 
 COMPOSE = """services:
@@ -55,8 +57,6 @@ COMPOSE = """services:
       OPSDESK_SIZE: "{size}"
       OPSDESK_PROFILE: "{profile}"
       OPSDESK_GRADER_TOKEN: "${{OPSDESK_GRADER_TOKEN:?Set a fresh private grading token in the host environment}}"
-    expose:
-      - "8000"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
       interval: 2s
@@ -81,7 +81,7 @@ TEST_SH = """#!/bin/bash
 # Asks the environment sidecar to finish the day and grade it. The token is only in the verifier's env.
 set -u
 mkdir -p /logs/verifier
-python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen(urllib.request.Request('http://mcp-server:8000/grade', headers={'Authorization': 'Bearer '+os.environ['OPSDESK_GRADER_TOKEN']}), timeout=600).read())" \
+python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/grade', headers={'Authorization': 'Bearer '+os.environ['OPSDESK_GRADER_TOKEN']}), timeout=600).read())" \
   || echo "grade request failed" >&2
 if [ ! -s /logs/verifier/grade.json ]; then
   echo 0 > /logs/verifier/reward.txt
@@ -110,10 +110,10 @@ EOF
 SOLVE_SH = """#!/bin/bash
 # Oracle = the scripted reference desk, driven through the same MCP tools the agent gets.
 set -e
-python3 /solution/reference.py http://mcp-server:8000/mcp reference
+python3 /solution/reference.py http://127.0.0.1:8000/mcp reference
 """
 
-INSTR_HEAD = """The disruption-desk tools are on the MCP server named `opsdesk` (http://mcp-server:8000/mcp).
+INSTR_HEAD = """The disruption-desk tools are on the MCP server named `opsdesk` (http://127.0.0.1:8000/mcp).
 Use only those tools to do the job below.
 
 """

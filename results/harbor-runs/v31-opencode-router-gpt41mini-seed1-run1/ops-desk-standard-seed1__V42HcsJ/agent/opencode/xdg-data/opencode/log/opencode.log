@@ -1,0 +1,76 @@
+timestamp=2026-11-14T16:22:13.915Z level=INFO run=aadc6123 message="creating instance" directory=/app
+timestamp=2026-11-14T16:22:13.916Z level=INFO run=aadc6123 message=fromDirectory directory=/app
+timestamp=2026-11-14T16:22:13.919Z level=INFO run=aadc6123 message=bootstrapping directory=/app
+timestamp=2026-11-14T16:22:13.921Z level=INFO run=aadc6123 message=loading path=/root/.config/opencode/config.json
+timestamp=2026-11-14T16:22:13.922Z level=INFO run=aadc6123 message=loading path=/root/.config/opencode/opencode.json
+timestamp=2026-11-14T16:22:13.924Z level=INFO run=aadc6123 message=loading path=/root/.config/opencode/opencode.jsonc
+timestamp=2026-11-14T16:22:14.042Z level=INFO run=aadc6123 message="all LSPs are disabled"
+timestamp=2026-11-14T16:22:14.042Z level=INFO run=aadc6123 message="all formatters are disabled"
+timestamp=2026-11-14T16:22:14.042Z level=INFO run=aadc6123 message=init
+timestamp=2026-11-14T16:22:14.216Z level=INFO run=aadc6123 message=created id=ses_e25222837ffeB7ax3s3giXfelK slug=happy-otter version=1.19.5 projectID=global directory=/app path=app workspaceID=undefined parentID=undefined title="New session - 2026-11-14T16:22:14.216Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1794673334216 time.updated=1794673334216
+timestamp=2026-11-14T16:22:14.220Z level=INFO run=aadc6123 message="event connected"
+timestamp=2026-11-14T16:22:14.275Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=0
+timestamp=2026-11-14T16:22:14.736Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=true agent=title mode=primary
+timestamp=2026-11-14T16:22:14.738Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:14.751Z level=INFO run=aadc6123 message=initialized
+timestamp=2026-11-14T16:22:14.767Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:14.770Z level=INFO run=aadc6123 message="shell tool using shell" shell=/usr/bin/bash
+timestamp=2026-11-14T16:22:14.786Z level=INFO run=aadc6123 message=init count=1
+timestamp=2026-11-14T16:22:14.802Z level=INFO run=aadc6123 message="watcher backend" directory=/app platform=linux backend=inotify
+timestamp=2026-11-14T16:22:14.804Z level=INFO run=aadc6123 message="project copy refresh started" projectID=global
+timestamp=2026-11-14T16:22:14.805Z level=INFO run=aadc6123 message="project copy refresh done" projectID=global updated=[] removed=[]
+timestamp=2026-11-14T16:22:14.810Z level=INFO run=aadc6123 message="booting location services" directory=/app workspaceID=undefined
+timestamp=2026-11-14T16:22:14.812Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1daddd9ce001Afs7D623rWoATp
+timestamp=2026-11-14T16:22:14.813Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:14.918Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:17.879Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_get_status pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:17.882Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_read_alerts pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:18.078Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:18.087Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=1
+timestamp=2026-11-14T16:22:18.094Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:18.097Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1dadde6e8001b01gvkoefENaTC
+timestamp=2026-11-14T16:22:18.097Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:18.098Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:20.300Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_find_disrupted_bookings pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:20.438Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:20.442Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=2
+timestamp=2026-11-14T16:22:20.447Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:20.448Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1daddf01b001d7zTlJWoGUTK65
+timestamp=2026-11-14T16:22:20.449Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:20.449Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:22.328Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_advance_clock pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:22.330Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_read_alerts pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:22.457Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:22.462Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=3
+timestamp=2026-11-14T16:22:22.467Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:22.468Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1daddf7ff001b0E6F2R12Byqlq
+timestamp=2026-11-14T16:22:22.469Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:22.469Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:24.824Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_find_disrupted_bookings pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:24.906Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:24.910Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=4
+timestamp=2026-11-14T16:22:24.914Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:24.916Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1dade018e001G2XhqM8XX62qBw
+timestamp=2026-11-14T16:22:24.916Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:24.916Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:28.497Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_search_itineraries pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:28.506Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:28.513Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=5
+timestamp=2026-11-14T16:22:28.520Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:28.522Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1dade0fa2001JXSnbaM4S71PUz
+timestamp=2026-11-14T16:22:28.523Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:28.523Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:30.924Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_search_itineraries pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:31.049Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:31.055Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=6
+timestamp=2026-11-14T16:22:31.060Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:31.063Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1dade198f001RdJam8yTLJA1rd
+timestamp=2026-11-14T16:22:31.063Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:31.065Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini
+timestamp=2026-11-14T16:22:33.634Z level=INFO run=aadc6123 message=evaluated permission=opsdesk_search_itineraries pattern=* action.permission=* action.action=allow action.pattern=*
+timestamp=2026-11-14T16:22:33.756Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:33.761Z level=INFO run=aadc6123 message=loop session.id=ses_e25222837ffeB7ax3s3giXfelK step=7
+timestamp=2026-11-14T16:22:33.766Z level=INFO run=aadc6123 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/app git=/logs/agent/opencode/xdg-data/opencode/snapshot/global/42099b4af021e53fd8fd4e056c2568d7c2e3ffa8
+timestamp=2026-11-14T16:22:33.768Z level=INFO run=aadc6123 message=process session.id=ses_e25222837ffeB7ax3s3giXfelK messageID=msg_1dade2422001O1lmM3Rzndbnr6
+timestamp=2026-11-14T16:22:33.768Z level=INFO run=aadc6123 message=stream providerID=hostinger modelID=gpt-4.1-mini session.id=ses_e25222837ffeB7ax3s3giXfelK small=false agent=build mode=primary
+timestamp=2026-11-14T16:22:33.769Z level=INFO run=aadc6123 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=hostinger llm.model=gpt-4.1-mini

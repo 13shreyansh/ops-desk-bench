@@ -1,0 +1,44 @@
+{
+    "schema_version": 1,
+    "id": "f55ff572-e336-4710-bafc-949705f9d649",
+    "started_at": "2026-11-14T18:20:03.032825",
+    "updated_at": "2026-11-14T18:22:50.876305",
+    "finished_at": "2026-11-14T18:22:50.876305",
+    "n_total_trials": 1,
+    "stats": {
+        "n_completed_trials": 1,
+        "n_errored_trials": 1,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "opencode__google/gemini-4-argon__adhoc": {
+                "n_trials": 1,
+                "n_errors": 1,
+                "metrics": [
+                    {
+                        "mean": 0.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "ops-desk-standard-seed1__xWy6wLk"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "NonZeroAgentExitCodeError": [
+                        "ops-desk-standard-seed1__xWy6wLk"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
+    }
+}

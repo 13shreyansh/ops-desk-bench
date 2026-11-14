@@ -53,6 +53,24 @@ class PlanRetirementTests(unittest.TestCase):
                 self.assertFalse(rows[0]['retired'])
                 self.assertTrue(e.problems('TEST01'))
 
+    def test_dynamic_knock_on_invalidates_dependent_connection(self):
+        e = desk('cancel')
+        e.events, e.fired, e.log = [], [], [l for l in e.log if l.kind == 'rebook']
+        e.flights['FEED'].status = 'scheduled'
+        e.flights['UP'] = Flight('UP', 'CPH', 'ARN', 400, 460, 430, 490, 'E190', 100, e.flights['FEED'].tail)
+        e._fly_until(440)
+        self.assertEqual(e.flights['FEED'].eta, 590)
+        self.assertTrue(e.problems('TEST01'))
+        self.assertEqual(e.booked('CONNECT'), 40)
+        rows = stale_plan_records(e)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['cause'], 'knock_on')
+        self.assertEqual(rows[0]['dependent_flights'], ['CONNECT'])
+        self.assertFalse(rows[0]['retired'])
+        e.tool('rebook', {'changes':[{'pnr':'TEST01','flights':['DIRECT']}]})
+        self.assertTrue(stale_plan_records(e)[0]['retired'])
+        self.assertEqual(e.booked('CONNECT'), 20)
+
     def test_failed_repair_cannot_retire_the_plan(self):
         e = desk('cancel')
         result = e.tool('rebook', {'changes':[{'pnr':'TEST01','flights':['FEED','CONNECT']}]})

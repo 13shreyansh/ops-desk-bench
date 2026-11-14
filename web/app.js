@@ -55,20 +55,13 @@ function bars() {
   const order = ["nothing", "stop_early", "naive"];
   const rows = [...runs.filter(r => r.kind === "agent"), ...order.map(o => runs.find(r => r.label === o)), runs.find(r => r.label === "reference")].filter(Boolean);
   const lo = Math.min(0, ...rows.map(r => r.score)), hi = Math.max(1.05, ...rows.map(r => r.score));
-  const W = 900, rowH = 30, L = 210, H = rows.length * rowH + 30;
-  const x = (v) => L + (v - lo) / (hi - lo) * (W - L - 60);
-  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%">`;
-  for (const t of [0, 0.25, 0.5, 0.75, 1]) s += `<line x1="${x(t)}" x2="${x(t)}" y1="0" y2="${H - 20}" stroke="#24314f" ${t === 1 ? 'stroke-dasharray="4 4" stroke="#5eead4"' : ""}/><text x="${x(t)}" y="${H - 4}" text-anchor="middle">${t}</text>`;
-  let ai = 0;
-  rows.forEach((r, i) => {
-    const y = i * rowH + 6, c = r.kind === "agent" ? AGENT_COLORS[ai++ % 6] : COLORS[r.label];
-    const fm = Object.entries(r.failure_modes).filter(([, v]) => v.count).map(([k, v]) => `${k}: ${v.count}`).join("<br>") || "none";
-    s += `<g onmousemove="showTip(event, '<b>${label(r)}</b><br>score ${r.score.toFixed(3)} · value ${r.value}<br>tool calls ${r.tool_calls}, errors ${r.tool_errors}<br>ended ${r.ended_at} (${r.end_reason})<hr style=&quot;border-color:#24314f&quot;>${fm}')" onmouseleave="hideTip()">
-      <text x="${L - 10}" y="${y + 15}" text-anchor="end" style="fill:#e7ecf6;font-family:Inter;font-size:12px">${label(r)}</text>
-      <rect x="${x(Math.min(0, r.score))}" y="${y + 3}" width="${Math.max(2, Math.abs(x(r.score) - x(0)))}" height="16" rx="4" fill="${c}"/>
-      <text x="${x(Math.max(0, r.score)) + 8}" y="${y + 15}">${r.score.toFixed(2)}</text></g>`;
-  });
-  $("#scoreBars").innerHTML = s + "</svg>";
+  const pos = v => (v - lo) / (hi - lo) * 100;
+  $("#scoreBars").innerHTML = rows.map((r, i) => {
+    const c = r.kind === "agent" ? AGENT_COLORS[i % AGENT_COLORS.length] : COLORS[r.label];
+    const left = pos(Math.min(0, r.score)), width = Math.abs(pos(r.score) - pos(0));
+    return `<div class="score-row"><span class="score-label">${label(r)}</span><strong>${r.score.toFixed(3)}</strong><div class="score-track" aria-hidden="true"><span style="left:${left}%;width:${Math.max(.4, width)}%;background:${c}"></span><i style="left:${pos(1)}%"></i></div><small>${r.tool_calls} tool calls · ${r.tool_errors} rejected · ended ${r.ended_at}</small></div>`;
+  }).join("") + `<p class="score-key">0 = doing nothing · 1 = scripted reference. Values are raw scores.</p>`;
+
 }
 
 function curve() {
@@ -90,7 +83,7 @@ function curve() {
     legend += `<span><i style="background:${c}"></i>${label(r)}</span>`;
   }
   s += `<text x="8" y="16">value</text></svg>`;
-  $("#curve").innerHTML = `<div class="legend">${legend}<span><i style="background:#f59e0b;height:8px;width:8px;border-radius:50%"></i>alert</span></div>` + s;
+  $("#curve").innerHTML = `<div class="legend">${legend}<span><i style="background:#f59e0b;height:8px;width:8px;border-radius:50%"></i>alert</span></div><p class="scroll-hint">Scroll the chart horizontally to inspect the full day, 06:00 to 23:00.</p><div class="chart-scroll" tabindex="0" role="region" aria-label="Hourly recovery chart, horizontally scrollable from 06:00 to 23:00">${s}</div>`;
 }
 
 function alerts() {
@@ -129,6 +122,6 @@ function exploits() {
     const m = mean(v), ok = k === "reference" || k === "reference_but_never_end" ? "" : m < 0.5 ? "pill" : "";
     return `<tr><td style="font-family:'IBM Plex Mono'">${k}</td>${v.map(s => `<td class="n">${s.toFixed(3)}</td>`).join("")}<td class="n"><b>${m.toFixed(3)}</b></td></tr>`;
   }).join("");
-  $("#exploits").innerHTML = `<table><tr><th>Attempt</th>${EXPL.reference.map((_, i) => `<th style="text-align:right">seed ${i + 1}</th>`).join("")}<th style="text-align:right">mean</th></tr>${rows}</table>`;
+  $("#exploits").innerHTML = `<p class="scroll-hint">Scroll this table horizontally to compare all three seeds.</p><table><tr><th>Attempt</th>${EXPL.reference.map((_, i) => `<th style="text-align:right">seed ${i + 1}</th>`).join("")}<th style="text-align:right">mean</th></tr>${rows}</table>`;
 }
 main().catch(() => { $("#evidenceState").textContent = "Run data could not be loaded. Reload this page or inspect the run files linked above."; });

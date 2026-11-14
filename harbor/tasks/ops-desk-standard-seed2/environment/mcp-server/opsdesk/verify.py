@@ -162,7 +162,7 @@ def failure_modes(env: OpsDesk) -> dict:
             out["stale_plan_retirement"].append(entry["pnr"])
 
     out["denied_boarding"] = sorted({l.data["pnr"] for l in env.log if l.kind == "denied_boarding"})
-    if env.end_reason == "agent" and end_t < SHIFT_END:
+    if end_t < SHIFT_END:
         out["stopped_early"] = [e.id for e in env.events if e.at > end_t]
 
     res = {}

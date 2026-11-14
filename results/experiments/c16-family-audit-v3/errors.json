@@ -1,0 +1,30 @@
+[
+  {
+    "seed": 12,
+    "profile": "final",
+    "policy": "reference",
+    "error_type": "RuntimeError",
+    "error": "scenario generation: no candidate flight"
+  },
+  {
+    "seed": 12,
+    "profile": "final",
+    "policy": "nothing",
+    "error_type": "RuntimeError",
+    "error": "scenario generation: no candidate flight"
+  },
+  {
+    "seed": 12,
+    "profile": "final",
+    "policy": "stop_early",
+    "error_type": "RuntimeError",
+    "error": "scenario generation: no candidate flight"
+  },
+  {
+    "seed": 12,
+    "profile": "final",
+    "policy": "naive",
+    "error_type": "RuntimeError",
+    "error": "scenario generation: no candidate flight"
+  }
+]

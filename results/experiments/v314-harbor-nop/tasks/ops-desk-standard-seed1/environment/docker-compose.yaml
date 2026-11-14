@@ -1,0 +1,19 @@
+services:
+  main:
+    depends_on:
+      mcp-server:
+        condition: service_healthy
+  mcp-server:
+    build:
+      context: ./mcp-server
+    environment:
+      OPSDESK_SEED: "1"
+      OPSDESK_SIZE: "standard"
+      OPSDESK_PROFILE: "all"
+      OPSDESK_GRADER_TOKEN: "${OPSDESK_GRADER_TOKEN:?Set a fresh private grading token in the host environment}"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 5s

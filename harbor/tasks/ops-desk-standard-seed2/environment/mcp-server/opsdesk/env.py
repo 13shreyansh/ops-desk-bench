@@ -160,21 +160,24 @@ class OpsDesk:
                 f = self.flights[pl["flight"]]
                 f.aircraft, f.seats = pl["aircraft"], AIRCRAFT[pl["aircraft"]]
             self.log.append(LogEntry(e.at, "event", {"id": e.id}))
-            # A previously accepted plan can become stale when its upstream flight changes.
-            # Record the dependent seat commitments before the desk has a chance to repair it.
             changed = set(pl.get("flights", [])) if e.kind == "cancel" else ({pl["flight"]} if e.kind in ("delay", "downgauge") else set())
-            if changed:
-                moved = {l.data["pnr"] for l in self.log if l.kind == "rebook"}
-                for p in sorted(moved):
-                    rem = self._remaining(p)
-                    hit = changed.intersection(rem)
-                    if hit and self.problems(p):
-                        first = min(rem.index(fid) for fid in hit)
-                        self.log.append(LogEntry(self.now, "plan_invalidated", {
-                            "pnr": p, "event": e.id, "cause": e.kind,
-                            "invalid_flights": sorted(hit), "itinerary": list(rem),
-                            "dependent_flights": rem[first + 1:],
-                            "problem": self.problems(p)[0]}))
+            self._record_invalidated(e.id, e.kind, changed, self.now)
+
+    def _record_invalidated(self, event: str, cause: str, changed: set[str], at: int):
+        """Keep an audit of upstream failures and the dependent seats they strand."""
+        if not changed:
+            return
+        moved = {l.data["pnr"] for l in self.log if l.kind == "rebook"}
+        for p in sorted(moved):
+            rem = self._remaining(p)
+            hit = changed.intersection(rem)
+            if hit and self.problems(p):
+                first = min(rem.index(fid) for fid in hit)
+                self.log.append(LogEntry(at, "plan_invalidated", {
+                    "pnr": p, "event": event, "cause": cause,
+                    "invalid_flights": sorted(hit), "itinerary": list(rem),
+                    "dependent_flights": rem[first + 1:],
+                    "problem": self.problems(p)[0]}))
 
     def _scan(self):
         """Record, once per tick, which bookings have problems and their best option (for the verifier)."""
@@ -249,6 +252,7 @@ class OpsDesk:
                                     "time": hhmm(f.etd),
                                     "text": f"Knock-on delay: aircraft {g.tail} is late from {f.id}; "
                                             f"{g.id} {g.origin}-{g.dest} now departs {hhmm(g.etd)} (was {hhmm(g.std)})."})
+            self._record_invalidated(self.dyn_alerts[-1]["id"], "knock_on", {g.id}, f.etd)
 
     def _step_to(self, t: int):
         while self.now < t:

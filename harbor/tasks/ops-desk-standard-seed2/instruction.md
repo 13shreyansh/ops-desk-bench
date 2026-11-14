@@ -1,4 +1,4 @@
-The disruption-desk tools are on the MCP server named `opsdesk` (http://mcp-server:8000/mcp).
+The disruption-desk tools are on the MCP server named `opsdesk` (http://127.0.0.1:8000/mcp).
 Use only those tools to do the job below.
 
 # Ops Desk: you are the disruption desk for Aurora Regional

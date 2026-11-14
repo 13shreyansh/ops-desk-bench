@@ -13,7 +13,7 @@ Updated 14 November 2026, Helsinki. No current-world frontier/reference advantag
 | `results/standard/exploits.json` | v3 simulator, unchanged reward/reference | Codex, Python 3.11 in-process scripts | Fresh standard seeds 1–3, raw scores retained. |
 | `results/harbor-runs/v3-oracle-seed1/` | v3, private grader-header transport patch | Harbor 0.26.0 / Docker | Standard seed1, reward 1.000, 49 seconds, zero exceptions. |
 | `results/harbor-runs/v3-nop-seed1/` | same | Harbor 0.26.0 / Docker | Standard seed1, reward 0.000, 21 seconds, zero exceptions. |
-| `results/experiments/c16-family-audit-v2/` | v3.1 supplemental profiles | In-process scripts | 48 paired checks,3 row-order changes in naive;2/3 final seeds complete, seed12 generator failure. Failed v1 retained. No frontier inference. |
+| `results/experiments/c16-family-audit-v4/` | v3.1 supplemental profiles | In-process scripts | 48 paired checks,3 row-order changes in naive;2/3 final seeds complete, seed12 generator failure. Failed v1 retained. No frontier inference. |
 
 v3.1 adds diagnostic invalidation records, optional family profiles and experiment provenance. Default `all` keeps v3 simulator/reward/reference behavior. The reference source remains unchanged from eaec534. The new stale-plan diagnostic does not change reward. Regenerate Harbor tasks to include the diagnostic; the first v3 Harbor logs above predate it and remain labelled accurately.
 
@@ -27,10 +27,10 @@ Current exploit tests give churn−1.5265/−0.8798/−1.2894, parking tomorrow0
 
 ## Missing evidence and publication limits
 
-- Required complete STANDARD OpenCode model playthrough with reward and transcript. Flash and Argon current-world OpenCode runs launched after private credential handoff; gpt-4.1-mini is also running through the existing Hostinger Router. No completed model-play score yet. The first Router adapter attempt failed before play and is retained as infrastructure evidence with its fallback zero explicitly excluded.
+- Complete STANDARD OpenCode model evidence now exists: gpt-4.1-mini, score0.000, zero Harbor runner exceptions, stopped at07:00 before rebooking. [Transcript-based error analysis](ERROR_ANALYSIS.md) distinguishes this scored early stop from infrastructure. Gemini Flash/Argon returned HTTP402; their fallback zeros are excluded. Stronger Router families are in progress.
 - Repeated stochastic runs from2–3 model families. Different Gemini names alone are not independent model families. No judge-model guarantee is claimed.
 - Current model failure examples read from completed transcripts. Interrupted transcripts may guide investigation but cannot support completed-run performance.
-- Independent spec/evidence-only AI reviewer verdict is pending. No human review or model-family independence is claimed.
+- [Independent spec/evidence-only AI review](INDEPENDENT_REVIEW.md) reproduced68 audit rows and12 original baselines. It found a missing knock-on diagnostic, seed12 failure, incomplete manifest inputs and unsupported egress confidentiality. Fixes require a scoped follow-up check. No human/model-family independence claim.
 - Public demo recording, no longer than2:00, and final competition submission.
 - Browser desktop/mobile inspection of the updated site. IAB is unavailable in this project chat; exact requests are in the bridge. Local syntax/data checks are not browser verification.
 
@@ -39,3 +39,11 @@ The site previously displayed old-world data and claimed a consistent frontier g
 ## Supplemental audit failures
 
 See [AUDIT_RESULTS.md](AUDIT_RESULTS.md). The original generator rejects final seed12. The audit keeps that failure rather than swapping seeds. Three naive-script row-order perturbations changed value. All48 paired checks and the failed first audit are public.
+
+## Independent review response
+
+The knock-on route now has an explicit invalidation record and a fourth regression test. Early harness termination is also diagnosed. The audit manifest now includes each profile's exact seeds; v4 preserves fixed families/inputs and the seed12 failure. Transport-only packaging changes after that audit add supported agent-phase egress restrictions. Validation attempts and failures remain separate; no network isolation claim is made until phase-scoped tests pass. The reference policy and numerical reward remain unchanged.
+
+## Current Harbor transport evidence
+
+[Shared-loopback phase proof](../results/harbor-runs/network-proof-loopback/README.md) runs explicit outbound checks inside the actual agent phase, then the unchanged reference. GitHub and raw source are blocked with URLError; unauthenticated Router responds403, MCP health200; reference raw/reward1.000 with no verifier infrastructure flag. Latest nop raw/reward0.000 is in `results/experiments/v314-harbor-nop`. Zero Harbor exceptions is distinct from zero rejected tool requests; reference has40 rejected tools among18087 calls. The finite network proof is not a claim of exhaustive security.

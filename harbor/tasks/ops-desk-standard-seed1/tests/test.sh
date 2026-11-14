@@ -2,7 +2,7 @@
 # Asks the environment sidecar to finish the day and grade it. The token is only in the verifier's env.
 set -u
 mkdir -p /logs/verifier
-python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen(urllib.request.Request('http://mcp-server:8000/grade', headers={'Authorization': 'Bearer '+os.environ['OPSDESK_GRADER_TOKEN']}), timeout=600).read())"   || echo "grade request failed" >&2
+python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/grade', headers={'Authorization': 'Bearer '+os.environ['OPSDESK_GRADER_TOKEN']}), timeout=600).read())"   || echo "grade request failed" >&2
 if [ ! -s /logs/verifier/grade.json ]; then
   echo 0 > /logs/verifier/reward.txt
   echo '{"reward": 0, "infra_error": 1}' > /logs/verifier/details.json

@@ -1,0 +1,17 @@
+{
+  "provider": {
+    "hostinger": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Hostinger Router",
+      "options": {
+        "baseURL": "https://router.hostinger.com/v1",
+        "apiKey": "{env:HOSTINGER_AI_ROUTER_API_KEY}"
+      },
+      "models": {
+        "gpt-5": {"name": "gpt-5", "limit": {"context": 128000, "output": 16384}},
+        "claude-fable-5.2": {"name": "claude-fable-5.2", "limit": {"context": 128000, "output": 16384}},
+        "gpt-4.1-mini": {"name": "gpt-4.1-mini", "limit": {"context": 128000, "output": 8192}}
+      }
+    }
+  }
+}

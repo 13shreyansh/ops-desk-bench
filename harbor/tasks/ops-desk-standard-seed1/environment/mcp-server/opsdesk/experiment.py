@@ -15,7 +15,7 @@ from .verify import report
 from .world import PROFILE_FAMILIES
 
 ROOT = Path(__file__).resolve().parent.parent
-VERSION = 'opsdesk-v3.1'
+VERSION = 'opsdesk-v3.1.5'
 
 
 def source_hashes():
@@ -45,6 +45,17 @@ def scripted(policy, seed, profile='all', nuisance=None):
     return report(env)
 
 
+def harbor_outcome(stats: dict, infra: int, process_exit: int, expected: int) -> tuple[dict, int]:
+    summary = {name: stats.get(key, 0) for name, key in (
+        ('completed_trials', 'n_completed_trials'), ('errored_trials', 'n_errored_trials'),
+        ('cancelled_trials', 'n_cancelled_trials'), ('running_trials', 'n_running_trials'),
+        ('pending_trials', 'n_pending_trials'))}
+    summary.update(expected_trials=expected, verifier_infrastructure_failures=infra, process_exit_code=process_exit)
+    incomplete = summary['completed_trials'] != expected or any(summary[k] for k in (
+        'errored_trials', 'cancelled_trials', 'running_trials', 'pending_trials'))
+    return summary, process_exit or int(bool(incomplete or infra))
+
+
 def main():
     ap = argparse.ArgumentParser(__doc__)
     ap.add_argument('--suite', choices=['scripted','audit','harbor'], required=True)
@@ -53,6 +64,8 @@ def main():
     ap.add_argument('--agent', choices=['oracle','nop','opencode'], default='oracle')
     ap.add_argument('--model')
     ap.add_argument('--runs', type=int, default=1)
+    ap.add_argument('--concurrent', type=int, default=1)
+    ap.add_argument('--opencode-config', type=Path)
     ap.add_argument('--api-key-name', default='GEMINI_API_KEY')
     a = ap.parse_args()
     name = a.name or datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+a.suite
@@ -62,7 +75,10 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     manifest = {'experiment_version':VERSION,'suite':a.suite,'utc_started':datetime.now(timezone.utc).isoformat(),
                 'python':platform.python_version(),'source_sha256':source_hashes(), 'seeds':a.seeds,
+                'profile_seeds':{'development':[1,2,3],'final':[11,12,13]} if a.suite=='audit' else {'all':a.seeds},
                 'runner':'Harbor' if a.suite == 'harbor' else 'in-process scripted, no model inference',
+                'agent':a.agent if a.suite=='harbor' else None, 'model':a.model, 'runs_per_seed':a.runs,
+                'opencode_config_sha256':hashlib.sha256(a.opencode_config.read_bytes()).hexdigest() if a.opencode_config else None,
                 'family_split':{k:sorted(v) for k,v in PROFILE_FAMILIES.items()},
                 'limitation':'Family audit was designed after builder exposure to the original all-family world. It is not an unseen-world frontier-model test.'}
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
@@ -73,21 +89,33 @@ def main():
         tasks = out/'tasks'
         build(a.seeds,'standard',tasks,10800)
         env = dict(os.environ, OPSDESK_GRADER_TOKEN=secrets.token_hex(32))
-        args = ['harbor','run','-y','--jobs-dir',str(out/'jobs'),'--job-name','run','-a',a.agent,'-k',str(a.runs)]
+        args = ['harbor','run','-y','--jobs-dir',str(out/'jobs'),'--job-name','run','-a',a.agent,'-k',str(a.runs),'-n',str(a.concurrent)]
         for task in sorted(tasks.iterdir()):
             args += ['-p',str(task)]
         if a.model:
             args += ['-m',a.model,'--api-key-name',a.api_key_name]
+        if a.opencode_config:
+            args += ['--ak','opencode_config='+json.dumps(json.loads(a.opencode_config.read_text()))]
         # Credentials stay in environment; Harbor scrubs run logs on completion.
         rc = subprocess.call(args,env=env)
-        manifest['exit_code'] = rc
+        result_path = out/'jobs'/'run'/'result.json'
+        stats = json.loads(result_path.read_text()).get('stats', {}) if result_path.exists() else {}
+        infra = sum(bool(json.loads(p.read_text()).get('infra_error')) for p in (out/'jobs'/'run').glob('*/verifier/details.json'))
+        # A zero Harbor process exit can still mean cancelled, missing, or infra-failed trials.
+        manifest['harbor_summary'], manifest['exit_code'] = harbor_outcome(stats, infra, rc, len(a.seeds) * a.runs)
+
     else:
-        rows = []
+        rows, errors = [], []
         profiles = [('all',a.seeds)] if a.suite == 'scripted' else [('development',[1,2,3]),('final',[11,12,13])]
         for profile,seeds in profiles:
             for seed in seeds:
                 for policy in ['reference','nothing','stop_early','naive']:
-                    baseline = scripted(policy,seed,profile)
+                    try:
+                        baseline = scripted(policy,seed,profile)
+                    except Exception as exc:
+                        errors.append({'seed':seed,'profile':profile,'policy':policy,'error_type':type(exc).__name__,'error':str(exc)})
+                        (out/'errors.json').write_text(json.dumps(errors,indent=2)+'\n')
+                        continue
                     rows.append({'policy':policy,'nuisance':None, **baseline})
                     if a.suite == 'audit' and profile == 'development':
                         for nuisance in ['rename','key_order','row_order','rephrase']:
@@ -96,6 +124,7 @@ def main():
                                          'same_score':r['score']==baseline['score'],
                                          'same_value':r['value']==baseline['value'], **r})
         (out/'reports.json').write_text(json.dumps(rows,indent=2)+'\n')
+        manifest['failed_trials']=len(errors)
         if a.suite == 'scripted':
             from .exploits import ATTEMPTS
             attacks = []
