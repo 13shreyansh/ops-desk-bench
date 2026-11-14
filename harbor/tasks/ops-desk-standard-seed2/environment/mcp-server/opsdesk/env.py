@@ -79,18 +79,18 @@ class OpsDesk:
     def _remaining(self, p: str) -> list[str]:
         return self.bookings[p].itinerary[self.state[p].flown:]
 
-    def problems(self, p: str) -> list[str]:
+    def problems(self, p: str, include_airborne: bool = False) -> list[str]:
         """Why a booking will not reach its destination as currently booked (empty = fine)."""
         b, st = self.bookings[p], self.state[p]
         if st.arrived_at is not None:
             return []
         rem = self._remaining(p)
-        if st.location is None:
-            return []  # airborne; checked when it lands
+        if st.location is None and not include_airborne:
+            return []  # public tools defer airborne issues until landing
         if not rem:
             return ["no onward flight booked"]
         out = []
-        prev_ready, loc = st.ready, st.location
+        prev_ready, loc = st.ready, st.location if st.location is not None else st._dest
         need_mct = st.flown > 0
         for i, fid in enumerate(rem):
             f = self.flights[fid]
@@ -171,13 +171,14 @@ class OpsDesk:
         for p in sorted(moved):
             rem = self._remaining(p)
             hit = changed.intersection(rem)
-            if hit and self.problems(p):
+            pr = self.problems(p, include_airborne=True) if hit else []
+            if hit and pr:
                 first = min(rem.index(fid) for fid in hit)
                 self.log.append(LogEntry(at, "plan_invalidated", {
                     "pnr": p, "event": event, "cause": cause,
                     "invalid_flights": sorted(hit), "itinerary": list(rem),
                     "dependent_flights": rem[first + 1:],
-                    "problem": self.problems(p)[0]}))
+                    "problem": pr[0]}))
 
     def _scan(self):
         """Record, once per tick, which bookings have problems and their best option (for the verifier)."""

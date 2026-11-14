@@ -7,7 +7,7 @@
 | Criterion | Inspectable proof | Current limit |
 | --- | --- | --- |
 | Gap, 30% | [Evidence ledger](eval/LEDGER.md), [versioned experiments](results/experiments/) | Current-world model/reference gap is unmeasured. Old-world scores are calibration only. |
-| Meaningful difficulty, 30% | [Agent instructions](opsdesk/instruction.md), [real model error analysis](eval/ERROR_ANALYSIS.md), [stale-plan regressions](tests/test_plan_retirement.py), [audit protocol and published failures](eval/AUDIT_RESULTS.md) | Synthetic airline simulation, no claim of airline operational validation. |
+| Meaningful difficulty, 30% | [Agent instructions](opsdesk/instruction.md), [real model error analysis](eval/ERROR_ANALYSIS.md), [stale-plan regressions](tests/test_plan_retirement.py), [independent AI review](eval/INDEPENDENT_REVIEW.md), [audit protocol and published failures](eval/AUDIT_RESULTS.md) | Synthetic airline simulation, no claim of airline operational validation. |
 | Reward integrity, 25% | [v3 exploit results](results/standard/exploits.json), [genuine Harbor oracle/nop logs](results/harbor-runs/) | Reference is a heuristic, not a proved upper bound. Raw scores remain visible outside [0,1]. |
 | Craft, 15% | [One-command experiments](#versioned-experiments), [results site](https://ops-desk-bench.vercel.app), [video and pitch script](docs/demo-and-pitch.md) | Recording/public video and final competition submission remain pending. |
 

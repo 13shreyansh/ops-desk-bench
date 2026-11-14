@@ -15,7 +15,7 @@ from .verify import report
 from .world import PROFILE_FAMILIES
 
 ROOT = Path(__file__).resolve().parent.parent
-VERSION = 'opsdesk-v3.1.5'
+VERSION = 'opsdesk-v3.1.6'
 
 
 def source_hashes():

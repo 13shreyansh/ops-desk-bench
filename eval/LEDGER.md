@@ -13,7 +13,7 @@ Updated 14 November 2026, Helsinki. No current-world frontier/reference advantag
 | `results/standard/exploits.json` | v3 simulator, unchanged reward/reference | Codex, Python 3.11 in-process scripts | Fresh standard seeds 1–3, raw scores retained. |
 | `results/harbor-runs/v3-oracle-seed1/` | v3, private grader-header transport patch | Harbor 0.26.0 / Docker | Standard seed1, reward 1.000, 49 seconds, zero exceptions. |
 | `results/harbor-runs/v3-nop-seed1/` | same | Harbor 0.26.0 / Docker | Standard seed1, reward 0.000, 21 seconds, zero exceptions. |
-| `results/experiments/c16-family-audit-v4/` | v3.1 supplemental profiles | In-process scripts | 48 paired checks,3 row-order changes in naive;2/3 final seeds complete, seed12 generator failure. Failed v1 retained. No frontier inference. |
+| `results/experiments/c16-family-audit-v5/` | v3.1 supplemental profiles | In-process scripts | 48 paired checks,3 row-order changes in naive;2/3 final seeds complete, seed12 generator failure. Failed v1 retained. No frontier inference. |
 
 v3.1 adds diagnostic invalidation records, optional family profiles and experiment provenance. Default `all` keeps v3 simulator/reward/reference behavior. The reference source remains unchanged from eaec534. The new stale-plan diagnostic does not change reward. Regenerate Harbor tasks to include the diagnostic; the first v3 Harbor logs above predate it and remain labelled accurately.
 
@@ -47,3 +47,9 @@ The knock-on route now has an explicit invalidation record and a fourth regressi
 ## Current Harbor transport evidence
 
 [Shared-loopback phase proof](../results/harbor-runs/network-proof-loopback/README.md) runs explicit outbound checks inside the actual agent phase, then the unchanged reference. GitHub and raw source are blocked with URLError; unauthenticated Router responds403, MCP health200; reference raw/reward1.000 with no verifier infrastructure flag. Latest nop raw/reward0.000 is in `results/experiments/v314-harbor-nop`. Zero Harbor exceptions is distinct from zero rejected tool requests; reference has40 rejected tools among18087 calls. The finite network proof is not a claim of exhaustive security.
+
+## Final scoped review and diagnostics
+
+The independent reviewer verified the exact airborne reproduction after the fix, cancellation/downgauge optional predictions without snapshot mutation, unchanged default airborne public tools and all7 test methods. v5 core hashes match current env/world/verifier/reference; all68 identity/reward rows match v4 and the same4 policy errors share seed12. Later exporter provenance changes are separate from the frozen core. Latest normal-task oracle/nop are in `results/experiments/v316-harbor-oracle` and `v316-harbor-nop`, each one completed trial with zero runner/cancelled/pending/running/infra failures and raw rewards1/0.
+
+Replay export now checks original Harbor score/value for drift, preserves original end reason and keeps original failure-mode counts next to explicitly post-hoc current diagnostics. It does not rewrite original scored reports. The raw model zero and infrastructure fallback zeros remain separate.

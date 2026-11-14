@@ -1,0 +1,65 @@
+{
+  "experiment_version": "opsdesk-v3.1.6",
+  "suite": "harbor",
+  "utc_started": "2026-11-14T16:37:39.247945+00:00",
+  "python": "3.11.16",
+  "source_sha256": {
+    "opsdesk/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "opsdesk/agent_gemini.py": "33051f4385968974296c95e560460754da42135793f0b83757d00a19de6aba8d",
+    "opsdesk/env.py": "ea380a6a1a89b44cf09529f741fc1b4aaaf123027120e4e15047ec312d794cdb",
+    "opsdesk/eval.py": "77057a2804532422893f8a1fe705aa88a2f1020dfe28168a879ef458a05f9268",
+    "opsdesk/experiment.py": "2005782e9939a46f7521c8f7f31d449fbc758a61a4d588bdb8cd6f412b754760",
+    "opsdesk/exploits.py": "7318b78cabdf834a84d66df384f13ca5f73c532a4fcba618b94f1e76d3956ae4",
+    "opsdesk/export.py": "4bc6b02602a999b36f69f4ade932e87ca803eed0ffff93509d5d0b59ded66aa9",
+    "opsdesk/instruction.md": "758ee2ebe99f3997cddb105e4a8f67708d25cfaea9e594f4a6589d4e702c6caa",
+    "opsdesk/make_harbor.py": "7658eb73093e724fe2e080f55703047f27515975cdc99d2e0977a99f3a975842",
+    "opsdesk/mcp_server.py": "07fbf5d55891c879d85c3c34f13078648994f8f1d1d8369ac9b23dc68913c97e",
+    "opsdesk/reference.py": "6c24341bc6889e02753c9f371167236ba530a9bba0a6c2511d7c24a5563237e3",
+    "opsdesk/tools.py": "38fbbed282be80311e12c210c193e6a674c2ed2174df38ca04358dcc594fbe0f",
+    "opsdesk/verify.py": "5738fcae4dc6d18fd56ce310390d76d62c43e7b78c05c5536537c3ffc9817391",
+    "opsdesk/world.py": "01e0b147c5ae5744180e6593768639503a5b339c66a40cf4b8081a389137d5ec"
+  },
+  "seeds": [
+    1
+  ],
+  "profile_seeds": {
+    "all": [
+      1
+    ]
+  },
+  "runner": "Harbor",
+  "agent": "nop",
+  "model": null,
+  "runs_per_seed": 1,
+  "opencode_config_sha256": null,
+  "family_split": {
+    "development": [
+      "atc_delay",
+      "closure_recovery",
+      "hydraulic_delay",
+      "inbound_delay",
+      "late_fault",
+      "rotation_delay",
+      "technical_cancel"
+    ],
+    "final": [
+      "capacity_constraint",
+      "escalating_delay",
+      "next_day_cancel"
+    ]
+  },
+  "limitation": "Family audit was designed after builder exposure to the original all-family world. It is not an unseen-world frontier-model test.",
+  "harbor_summary": {
+    "completed_trials": 1,
+    "errored_trials": 0,
+    "cancelled_trials": 0,
+    "running_trials": 0,
+    "pending_trials": 0,
+    "expected_trials": 1,
+    "verifier_infrastructure_failures": 0,
+    "process_exit_code": 0
+  },
+  "exit_code": 0,
+  "utc_finished": "2026-11-14T16:38:06.474726+00:00",
+  "source_unchanged": true
+}

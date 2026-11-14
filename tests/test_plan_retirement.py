@@ -71,6 +71,29 @@ class PlanRetirementTests(unittest.TestCase):
         self.assertTrue(stale_plan_records(e)[0]['retired'])
         self.assertEqual(e.booked('CONNECT'), 20)
 
+    def test_onward_constraint_changes_while_airborne_are_recorded(self):
+        for kind in ['cancel', 'downgauge']:
+            with self.subTest(kind=kind):
+                e = desk('cancel')
+                e.flights['FEED'].status = 'scheduled'
+                e.log = [l for l in e.log if l.kind == 'rebook']
+                e.fired = []
+                payload = {'flights':['CONNECT']} if kind == 'cancel' else {'flight':'CONNECT','aircraft':'SF340'}
+                e.events = [Event('AIRBORNE-CHANGE',480,kind,'Onward constraint changed.',payload)]
+                e.tool('advance_clock', {'minutes':60})
+                self.assertIsNone(e.state['TEST01'].location)
+                rows = stale_plan_records(e)
+                self.assertEqual(len(rows),1)
+                self.assertFalse(rows[0]['retired'])
+                self.assertEqual(e.booked('CONNECT'),40)
+                e.tool('advance_clock', {'minutes':60})
+                self.assertEqual(e.state['TEST01'].location,'HEL')
+                e.flights['HELNEW'] = Flight('HELNEW','HEL','CPH',610,670,610,670,'E190',100,'NEW')
+                response = e.tool('rebook', {'changes':[{'pnr':'TEST01','flights':['HELNEW']}]})
+                self.assertTrue(response['results'][0]['ok'])
+                self.assertTrue(stale_plan_records(e)[0]['retired'])
+                self.assertEqual(e.booked('CONNECT'),20)
+
     def test_failed_repair_cannot_retire_the_plan(self):
         e = desk('cancel')
         result = e.tool('rebook', {'changes':[{'pnr':'TEST01','flights':['FEED','CONNECT']}]})

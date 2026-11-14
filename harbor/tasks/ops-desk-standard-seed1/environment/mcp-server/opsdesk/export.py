@@ -101,12 +101,20 @@ def main():
             for tr in sorted(rd.glob(f"*/seed{seed}_run*/transcript.jsonl")):
                 model = tr.parent.parent.name
                 env, curve = trace_actions(seed, a.size, actions_from_transcript(tr))
-                meta = {}
+                meta, original = {}, {}
                 rp = tr.parent / "report.json"
                 if rp.exists():
-                    meta = json.loads(rp.read_text()).get("agent", {})
-                sd["runs"].append(summarize(env, curve, f"{model} #{tr.parent.name.split('_run')[-1]}",
-                                            {"kind": "agent", "model": model, "agent": meta}))
+                    original = json.loads(rp.read_text())
+                    meta = original.get("agent", {})
+                row = summarize(env, curve, f"{model} #{tr.parent.name.split('_run')[-1]}",
+                                {"kind": "agent", "model": model, "agent": meta})
+                if meta.get("completed_harbor"):
+                    if (row["score"], row["value"]) != (original["score"], original["value"]):
+                        raise ValueError(f"Harbor replay outcome drift: {tr}")
+                    row["end_reason"] = original["end_reason"]
+                    row["original_failure_modes"] = original["failure_modes"]
+                    row["diagnostic_scope"] = "Post-hoc current diagnostic replay; original scored report is retained unchanged."
+                sd["runs"].append(row)
         data["seeds"][str(seed)] = sd
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(data))

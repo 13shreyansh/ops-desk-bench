@@ -27,3 +27,7 @@ The independent reviewer reproduced a missed dynamic knock-on invalidation. v3.1
 ## Manifest correction for final v4 evidence
 
 v3.1.3 adds explicit profile_seeds to the manifest after the independent reviewer found the generic seeds field omitted final inputs. No test input or policy changes. Preserve v3 alongside v4. The final record is v4 with development1/2/3 and final11/12/13, including the same generator failure.
+
+## Airborne-plan diagnostic follow-up
+
+A later independent check found that cancellation of an onward flight while the passenger is airborne was missed. v3.1.6 predicts remaining-leg feasibility for invalidation diagnostics only; public airborne tool behavior and numerical reward remain unchanged. A new regression covers cancellation and reduced onward capacity during flight, then repair after landing releasing the old reservation. Freeze the same families/seeds as audit v5, with no generator/reference retuning. Prior scored runs retain their original diagnostics; any replay under this version is labelled post-hoc.

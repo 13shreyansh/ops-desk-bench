@@ -27,7 +27,6 @@ async function main() {
   try { EXPL = await (await fetch("data/exploits.json")).json(); } catch { EXPL = null; }
   const seeds = Object.keys(DATA.seeds);
   seed = seeds[0];
-  headline();
   const tabs = $("#seedTabs");
   tabs.innerHTML = `<span style="color:var(--muted);font-size:13px;align-self:center;margin-right:4px">Seed</span>` +
     seeds.map(s => `<button data-s="${s}" class="${s === seed ? "on" : ""}">${s}</button>`).join("");
@@ -39,7 +38,7 @@ async function main() {
 function headline() {
   const agentScores = [], byModel = {};
   for (const sd of Object.values(DATA.seeds)) for (const r of sd.runs) if (r.kind === "agent") { agentScores.push(r.score); (byModel[r.model] ||= []).push(r.score); }
-  const sd0 = Object.values(DATA.seeds)[0];
+  const sd0 = DATA.seeds[seed];
   const stats = [];
   for (const [m, s] of Object.entries(byModel)) stats.push([mean(s).toFixed(2), `${m} mean score (${s.length} runs, best ${Math.max(...s).toFixed(2)})`]);
   stats.push(["1.00", "Scripted reference desk, every seed"]);
@@ -48,7 +47,7 @@ function headline() {
   $("#headline").innerHTML = stats.map(([v, k]) => `<div class="stat"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
 }
 
-function render() { bars(); curve(); alerts(); failures(); }
+function render() { headline(); bars(); curve(); alerts(); failures(); }
 
 function bars() {
   const runs = DATA.seeds[seed].runs;
