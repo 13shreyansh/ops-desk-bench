@@ -75,7 +75,12 @@ def plan_tick(call: Call, moved: set[str]):
         dl = t2m(b["must_arrive_by"]) if "must_arrive_by" in b else None
         return (0 if dl is not None else 1, dl or 0, -TIER[b["tier"]], -b["pax"], p)
 
-    for p in sorted(info, key=prio):
+    order = sorted(info, key=prio)
+    deferred: set[str] = set()
+    i = 0
+    while i < len(order):
+        p = order[i]
+        i += 1
         b = call("get_booking", {"pnr": p})
         if b.get("arrived") or b.get("location") == "airborne":
             continue
@@ -87,6 +92,11 @@ def plan_tick(call: Call, moved: set[str]):
             continue
         if "must_arrive_by" in b:
             ok = [o for o in opts if t2m(o["arr"]) <= t2m(b["must_arrive_by"])]
+            if not ok and p not in deferred:
+                # the deadline can no longer be met: still get them home, but after everyone it can help
+                deferred.add(p)
+                order.append(p)
+                continue
             opts = ok or opts
         best = opts[0]
         if not broken:

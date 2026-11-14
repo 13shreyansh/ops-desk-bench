@@ -59,6 +59,7 @@ def run_agent(seed: int, size: str, model: str, out_dir: str | Path, max_turns: 
     infra_errors = 0
     log = open(out / "transcript.jsonl", "w")
     stop = "turn_cap"
+    t_start = time.time()
     for turn in range(max_turns):
         try:
             resp = call(model, contents, system)
@@ -81,7 +82,10 @@ def run_agent(seed: int, size: str, model: str, out_dir: str | Path, max_turns: 
         contents.append(content)
         calls = [p["functionCall"] for p in content.get("parts", []) if "functionCall" in p]
         texts = [p["text"] for p in content.get("parts", []) if "text" in p and not p.get("thought")]
-        log.write(json.dumps({"turn": turn, "t": env.now, "text": texts, "calls": calls}) + "\n")
+        log.write(json.dumps({"turn": turn, "t": env.now, "text": texts, "calls": calls,
+                             "usage": {k: um.get(k) for k in ("promptTokenCount", "candidatesTokenCount",
+                                                              "thoughtsTokenCount", "cachedContentTokenCount")},
+                             "wall": round(time.time() - t_start, 1)}) + "\n")
         if not calls:
             stop = "model_stopped"
             break
