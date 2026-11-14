@@ -72,7 +72,7 @@ function curve() {
   const x = (t) => L + (tt(t) - 360) / (1380 - 360) * (W - L - 20);
   const y = (v) => 10 + (hi - v) / (hi - lo || 1) * (H - B - 10);
   let s = `<svg viewBox="0 0 ${W} ${H}" width="100%">`;
-  for (let h = 6; h <= 23; h += 2) { const t = `${String(h).padStart(2, "0")}:00`; s += `<line x1="${x(t)}" x2="${x(t)}" y1="10" y2="${H - B}" stroke="#1c2742"/><text x="${x(t)}" y="${H - 10}" text-anchor="middle">${t}</text>`; }
+  for (const h of [6, 8, 10, 12, 14, 16, 18, 20, 22, 23]) { const t = `${String(h).padStart(2, "0")}:00`; s += `<line x1="${x(t)}" x2="${x(t)}" y1="10" y2="${H - B}" stroke="#1c2742"/><text x="${x(t)}" y="${H - 10}" text-anchor="middle">${t}</text>`; }
   for (const e of DATA.seeds[seed].events) s += `<line x1="${x(e.time)}" x2="${x(e.time)}" y1="10" y2="${H - B}" stroke="#4a3a16" stroke-dasharray="3 3"/><circle cx="${x(e.time)}" cy="14" r="4" fill="#f59e0b" onmousemove="showTip(event, '<b>${e.id} · ${e.time}</b><br>${e.text.replace(/'/g, "&#39;")}')" onmouseleave="hideTip()"/>`;
   let ai = 0, legend = "";
   for (const r of runs) {
