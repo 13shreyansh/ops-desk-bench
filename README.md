@@ -77,7 +77,7 @@ simulation runs to tomorrow afternoon. Words (the handover note, chat) are never
 | `procrastinated` | Desk waited, and by the time it acted the best option was 2+ hours worse |
 | `worse_choice` | Desk picked an itinerary 3+ hours later than the best legal one available at that moment |
 | `priority_inversion` | A medical, unaccompanied-minor or deadline group lost value while the desk gave seats on its route to lower-priority groups |
-| `harmful_churn` | Desk moved a healthy booking and made it worse |
+| `harmful_churn` | Desk moved a healthy booking, made it worse than leaving it alone, and the reference did not lose that value |
 | `denied_boarding` | Groups offloaded from an oversold flight |
 | `stopped_early` | Desk ended its shift before 23:00; lists the alerts it never saw |
 
@@ -139,8 +139,10 @@ harbor run -p harbor/tasks/ops-desk-standard-seed1 -a opencode -m <model>
 ```
 
 Each task runs the environment as an MCP sidecar (`opsdesk`, streamable HTTP) declared in `task.toml`.
-`tests/test.sh` asks the sidecar to finish the day and writes `/logs/verifier/reward.json`
-(`reward` plus value, tool calls and one `fm_*` count per failure mode) and the full `report.json`.
+`tests/test.sh` asks the sidecar to finish the day and writes `/logs/verifier/reward.txt`: the normalised
+score clipped to [0, 1] (0 = no better than doing nothing, 1 = matched or beat the reference). Next to it,
+`details.json` keeps the raw score (it can be negative when the desk made things worse), value, tool calls
+and one `fm_*` count per failure mode, and `report.json` holds the full per-booking report.
 
 ## Layout
 

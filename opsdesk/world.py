@@ -18,6 +18,7 @@ DAY2 = 24 * 60
 SIM_END = DAY2 + 16 * 60  # flights after this are not simulated
 TICK = 60
 TURNAROUND = 40   # minimum ground time between two flights of the same aircraft
+LF_DAY1, LF_DAY2 = (0.72, 0.92), (0.40, 0.65)   # target load factors
 PARTNER_SEATS = {"small": 14, "standard": 20}   # passengers per day the desk may put on the partner airline
 PARTNER_OUT = [8 * 60 + 15, 12 * 60 + 45, 17 * 60 + 15, 24 * 60 + 8 * 60 + 15]
 
@@ -193,7 +194,7 @@ def generate(seed: int = 0, size: str = "standard") -> Scenario:
         bookings[b.pnr] = b
         return True
 
-    target_lf = {fid: (rng.uniform(0.72, 0.92) if f.std < DAY2 else rng.uniform(0.40, 0.65))
+    target_lf = {fid: (rng.uniform(*LF_DAY1) if f.std < DAY2 else rng.uniform(*LF_DAY2))
                  for fid, f in flights.items()}
     inbound = [f for f in flights.values() if f.dest == HUB and f.std < DAY2]
     outbound = [f for f in flights.values() if f.origin == HUB and f.std < DAY2]

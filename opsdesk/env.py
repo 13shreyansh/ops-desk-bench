@@ -51,6 +51,10 @@ class OpsDesk:
         self.tool_calls = 0
         self.tool_errors = 0
         self.dyn_alerts: list[dict] = []
+        # the night before the shift has already happened: overnight flights are airborne or landed
+        self.now = -1
+        self._fly_until(SHIFT_START)
+        self.now = SHIFT_START
         self._fire_events()
         self._scan()
 

@@ -84,7 +84,8 @@ mkdir -p /logs/verifier
 python3 -c "import os,urllib.request; open('/logs/verifier/grade.json','wb').write(urllib.request.urlopen('http://mcp-server:8000/grade?token='+os.environ['OPSDESK_GRADER_TOKEN'], timeout=600).read())" \
   || echo "grade request failed" >&2
 if [ ! -s /logs/verifier/grade.json ]; then
-  echo '{"reward": 0, "infra_error": 1}' > /logs/verifier/reward.json
+  echo 0 > /logs/verifier/reward.txt
+  echo '{"reward": 0, "infra_error": 1}' > /logs/verifier/details.json
   exit 0
 fi
 python3 - <<'EOF'
@@ -92,11 +93,16 @@ import json
 g = json.load(open("/logs/verifier/grade.json"))
 r = g["report"]
 json.dump(r, open("/logs/verifier/report.json", "w"), indent=1)
-out = {"reward": r["score"], "value": r["value"], "v_nothing": r["v_nothing"], "v_reference": r["v_reference"],
+# reward.txt is the 0-1 task reward: share of the reference's recovery achieved, clipped to [0, 1].
+# details.json keeps the raw normalised score (it can go below 0 if the desk made things worse,
+# or above 1 if it beat the reference) and the failure-mode counts.
+reward = min(1.0, max(0.0, r["score"]))
+open("/logs/verifier/reward.txt", "w").write(f"{reward:.4f}")
+out = {"reward": round(reward, 4), "raw_score": r["score"], "value": r["value"], "v_nothing": r["v_nothing"], "v_reference": r["v_reference"],
        "tool_calls": r["tool_calls"], "tool_errors": r["tool_errors"]}
 for k, v in r["failure_modes"].items():
     out["fm_" + k] = v["count"]
-json.dump(out, open("/logs/verifier/reward.json", "w"))
+json.dump(out, open("/logs/verifier/details.json", "w"))
 print(json.dumps(out))
 EOF
 """
@@ -125,7 +131,19 @@ def build(seeds: list[int], size: str, out: Path, agent_timeout: int, dev_ca: st
         (d / "solution").mkdir()
         (d / "task.toml").write_text(TASK_TOML.format(token=token, agent_timeout=agent_timeout))
         (d / "instruction.md").write_text(INSTR_HEAD + (PKG / "instruction.md").read_text())
-        (d / "environment" / "Dockerfile").write_text(MAIN_DOCKERFILE)
+        main_df = MAIN_DOCKERFILE
+        if dev_ca:  # local testing behind a TLS-intercepting proxy only
+            shutil.copy(dev_ca, d / "environment" / "dev-ca.crt")
+            main_df += ("COPY dev-ca.crt /dev-ca.crt\nRUN cat /dev-ca.crt >> /etc/ssl/certs/ca-certificates.crt\n"
+                        "ENV NODE_EXTRA_CA_CERTS=/dev-ca.crt SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt "
+                        "REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt\n"
+                        # this sandbox has no apt mirror: preinstall node + opencode over https so Harbor skips apt
+                        "RUN python -c \"import urllib.request as u; u.urlretrieve('https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.gz', '/tmp/n.tgz')\" "
+                        "&& tar -xzf /tmp/n.tgz -C /usr/local --strip-components=1 && rm /tmp/n.tgz "
+                        "&& ln -s /usr/local/bin/node /usr/local/bin/nodejs "
+                        "&& printf '#!/bin/sh\\necho curl shim >&2; exit 1\\n' > /usr/local/bin/curl && chmod +x /usr/local/bin/curl "
+                        "&& npm i -g opencode-ai@latest && opencode --version\n")
+        (d / "environment" / "Dockerfile").write_text(main_df)
         (d / "environment" / "docker-compose.yaml").write_text(COMPOSE.format(seed=seed, size=size, token=token))
         ca = ""
         if dev_ca:  # only for building behind a TLS-intercepting proxy; never used for the submitted tasks

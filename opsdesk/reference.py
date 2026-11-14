@@ -220,6 +220,42 @@ def plan_tick(call: Call, moved: set[str]):
             choice, v = best_nl, v_nl
         return choice, v
 
+    # oversold flights (e.g. after an aircraft swap): the latest-changed groups would be offloaded, whoever
+    # they are. Choose who leaves instead: the groups that lose least per seat by taking their next option.
+    OVER = re.compile(r"oversold ([A-Z]{2}\d+)")
+    over_flights = sorted({m.group(1) for r in call("find_disrupted_bookings", {})["bookings"]
+                           for m in [OVER.search(r.get("problem", ""))] if m})
+    for fid in over_flights:
+        fl = call("get_flight", {"flight": fid})
+        deficit = -fl["seats_free"] if isinstance(fl["seats_free"], int) else 0
+        if deficit <= 0:
+            continue
+        cands = []
+        for r in fl["bookings"]:
+            q = r["pnr"]
+            bq = call("get_booking", {"pnr": q})
+            if bq.get("location") in (None, "airborne") or bq.get("arrived"):
+                continue
+            rem_q = [s_["flight"] for s_ in bq["itinerary"] if not s_["flown"]]
+            if any(f in doomed for f in rem_q):
+                continue
+            stay = value(bq, itin_arr(bq))
+            res = call("search_itineraries", {"pnrs": [q]})["results"][0]
+            alts = [o for o in res.get("options", []) if fid not in o["flights"] and ok_opt(o)]
+            alt = max(alts, key=lambda o: value(bq, arr_of(o))) if alts else None
+            loss = stay - (value(bq, arr_of(alt)) if alt else 0.0)
+            cands.append((loss / bq["pax"], loss, q, bq["pax"], alt))
+        cands.sort(key=lambda c: (c[0], c[2]))
+        freed = 0
+        for _, loss, q, pax, alt in cands:
+            if freed >= deficit:
+                break
+            if alt is None:
+                continue
+            if _ok(call("rebook", {"changes": [{"pnr": q, "flights": alt["flights"]}]})):
+                moved.add(q)
+                freed += pax
+
     # the partner allowance is for the whole day: keep part of it for disruptions still to come
     total = _TOTAL.setdefault(id(moved), call("get_status", {}).get("partner_seats_left", 0))
     share = min(1.0, PARTNER_EARLY + (1 - PARTNER_EARLY) * max(0, now - 420) / (900 - 420))

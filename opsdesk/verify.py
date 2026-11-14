@@ -121,7 +121,7 @@ def failure_modes(env: OpsDesk) -> dict:
         be, eta = l.data.get("best_eta"), l.data.get("eta")
         if be is not None and eta is not None and eta - be >= 180 and lost(p):
             out["worse_choice"].append(p)
-        if not l.data.get("had_problem") and vals[p] < nothing[p] - 1e-9:
+        if not l.data.get("had_problem") and vals[p] < nothing[p] - 1e-9 and lost(p):
             out["harmful_churn"].append(p)
 
     # a priority booking lost value while the desk moved lower-priority bookings onto
